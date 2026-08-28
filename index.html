@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cardell Exhibit Service</title>
+  <meta name="description" content="Break/fix, Raspberry Pi conversions, and care for existing learning-center interactives in Washington.">
+  <link rel="canonical" href="https://cardellexhibits.com/">
+  <meta property="og:title" content="Cardell Exhibit Service">
+  <meta property="og:description" content="Successor of record for orphaned learning-center interactives. Break/fix, Pi conversions, and care.">
+  <meta property="og:url" content="https://cardellexhibits.com/">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#f2ebe0">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --paper: #f2ebe0;
+      --card: #faf6ee;
+      --ink: #1e1a14;
+      --mute: #5c564c;
+      --rule: #6b2e22;
+      --line: #d9d0c3;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font: 18px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+    .frame {
+      max-width: 38rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.4rem 3.5rem;
+    }
+    .mark {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 2.25rem;
+      color: var(--rule);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      font-weight: 650;
+    }
+    .mark svg { display: block; flex: none; }
+    h1 {
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+      font-weight: 600;
+      font-size: clamp(2rem, 6vw, 2.7rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.4rem;
+    }
+    .place {
+      color: var(--mute);
+      margin: 0 0 1.75rem;
+      font-size: 1rem;
+    }
+    .lede {
+      font-size: 1.12rem;
+      margin: 0 0 1.1rem;
+    }
+    p { margin: 0 0 1.1rem; }
+    h2 {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rule);
+      margin: 2rem 0 0.7rem;
+      font-weight: 650;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .services li {
+      padding: 0.7rem 0;
+      border-top: 1px solid var(--line);
+    }
+    .services li:last-child { border-bottom: 1px solid var(--line); }
+    .services strong { font-weight: 650; }
+    .note { color: var(--mute); font-size: 0.98rem; }
+    a {
+      color: var(--rule);
+      text-underline-offset: 0.15em;
+    }
+    a:hover { color: var(--ink); }
+    .contact {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 1.1rem 1.15rem 1.2rem;
+      margin-top: 0.4rem;
+    }
+    .contact a.mail {
+      font-size: 1.15rem;
+      font-weight: 650;
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+    }
+    .contact .where {
+      color: var(--mute);
+      margin: 0.45rem 0 0;
+      font-size: 0.95rem;
+    }
+    footer {
+      margin-top: 2.6rem;
+      color: var(--mute);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <div class="mark">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+        <rect x="1" y="1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M13 5.2A5.2 5.2 0 1 0 13 12.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+      Established for existing exhibits
+    </div>
+    <h1>Cardell Exhibit Service</h1>
+    <p class="place">Washington</p>
+    <p class="lede">Successor of record for orphaned learning-center interactives.</p>
+    <p>When the original vendor is gone and the 2010s hardware is failing, the exhibit still has to run. That is the work: keep what is already on the floor alive.</p>
+
+    <h2>Services</h2>
+    <ul class="services">
+      <li><strong>Break/fix.</strong> Diagnose and repair existing learning-center interactives.</li>
+      <li><strong>Pi conversions.</strong> Replace dead players and controllers with Raspberry Pi hardware that staff can keep running.</li>
+      <li><strong>Care.</strong> Ongoing service so a gallery can keep the exhibits it already has.</li>
+    </ul>
+
+    <h2>Not offered</h2>
+    <p class="note">No gallery remodels, no new fabrication, and no display sales. For TVs and projectors, <a href="https://www.descoav.com/">Desco AV</a> in Olympia.</p>
+
+    <h2>Contact</h2>
+    <div class="contact">
+      <a class="mail" href="mailto:nick@cardellexhibits.com">nick@cardellexhibits.com</a>
+      <p class="where">South Puget Sound, Washington</p>
+    </div>
+
+    <footer>Cardell Exhibit Service · cardellexhibits.com</footer>
+  </main>
+</body>
+</html>
