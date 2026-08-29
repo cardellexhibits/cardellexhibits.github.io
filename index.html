@@ -93,24 +93,11 @@
     .site-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       gap: 2rem;
       min-height: 5.75rem;
       border-bottom: 1px solid var(--line);
       box-shadow: 0 3px 0 rgba(239, 226, 197, 0.025);
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      color: var(--ink);
-      font-family: var(--display);
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      line-height: 1.2;
-      text-decoration: none;
-      text-transform: uppercase;
     }
 
     .site-nav {
@@ -412,36 +399,6 @@
       font-size: 0.96rem;
     }
 
-    .scope {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 2rem;
-      align-items: center;
-      margin-top: 2rem;
-      padding: 2rem 0 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .scope p {
-      max-width: 49rem;
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .text-link {
-      color: var(--ink);
-      font: 720 0.72rem/1.3 var(--mono);
-      letter-spacing: 0.06em;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 0.25rem;
-      text-transform: uppercase;
-      transition: color 200ms ease;
-    }
-
-    .text-link:hover {
-      color: var(--accent);
-    }
-
     .contact-section {
       padding: clamp(1rem, 4vw, 3rem) 0 clamp(4rem, 9vw, 7rem);
     }
@@ -557,7 +514,6 @@
     @supports (animation-timeline: view()) {
       .section-heading,
       .service-card,
-      .scope,
       .contact-panel {
         animation: rise-in linear both;
         animation-delay: 0ms;
@@ -569,11 +525,6 @@
     @media (max-width: 48rem) {
       .site-header {
         min-height: 5rem;
-      }
-
-      .brand {
-        max-width: 13rem;
-        font-size: 0.9rem;
       }
 
       .site-nav {
@@ -660,7 +611,6 @@
         min-height: 16rem;
       }
 
-      .scope,
       footer {
         grid-template-columns: 1fr;
         display: grid;
@@ -697,7 +647,6 @@
       .hero-layout > *,
       .section-heading,
       .service-card,
-      .scope,
       .contact-panel {
         opacity: 1 !important;
       }
@@ -708,9 +657,6 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="shell site-header">
-    <a class="brand" href="#top" aria-label="Cardell Exhibit Service home">
-      <span>Cardell Exhibit Service</span>
-    </a>
     <nav class="site-nav" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
@@ -771,10 +717,6 @@
         </article>
       </div>
 
-      <div class="scope">
-        <p>Cardell Exhibit Service does not provide gallery remodeling, new fabrication, display sales, or television and projector service. Television and projector inquiries are referred to Desco AV in Olympia.</p>
-        <a class="text-link" href="https://www.descoav.com/">Visit Desco AV</a>
-      </div>
     </section>
 
     <section class="shell contact-section" id="contact" aria-labelledby="contact-heading">
