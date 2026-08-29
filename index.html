@@ -3,147 +3,560 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cardell Exhibit Service</title>
-  <meta name="description" content="Break/fix, Raspberry Pi conversions, and care for existing learning-center interactives in Washington.">
+  <title>Cardell Exhibit Service | Existing Interactive Exhibit Service</title>
+  <meta name="description" content="Surveys, service calls, conversions, and ongoing care for existing learning-center interactives in Washington.">
   <link rel="canonical" href="https://cardellexhibits.com/">
   <meta property="og:title" content="Cardell Exhibit Service">
-  <meta property="og:description" content="Successor of record for orphaned learning-center interactives. Break/fix, Pi conversions, and care.">
+  <meta property="og:description" content="Keep the exhibit. Replace what failed. Service for existing learning-center interactives in Washington.">
   <meta property="og:url" content="https://cardellexhibits.com/">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#f2ebe0">
+  <meta name="theme-color" content="#f3efe6">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <style>
     :root {
-      --paper: #f2ebe0;
-      --card: #faf6ee;
-      --ink: #1e1a14;
-      --mute: #5c564c;
-      --rule: #6b2e22;
-      --line: #d9d0c3;
+      --paper: #f3efe6;
+      --surface: #fbf8f1;
+      --ink: #171917;
+      --muted: #5e625c;
+      --accent: #a9472b;
+      --accent-dark: #7d301d;
+      --line: #d7d0c3;
+      --line-strong: #aaa293;
+      --shadow: 0 24px 64px rgba(40, 34, 26, 0.09);
+      --radius: 1.25rem;
     }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: var(--paper);
-      color: var(--ink);
-      font: 18px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      min-width: 18rem;
       min-height: 100vh;
+      background:
+        linear-gradient(rgba(169, 71, 43, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(169, 71, 43, 0.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 4rem 4rem;
+      color: var(--ink);
+      font: 400 1rem/1.6 "Aptos", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+      text-rendering: optimizeLegibility;
     }
-    .frame {
-      max-width: 38rem;
-      margin: 0 auto;
-      padding: 2.5rem 1.4rem 3.5rem;
+
+    a {
+      color: inherit;
     }
-    .mark {
+
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 0.2rem;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 20;
+      padding: 0.65rem 0.9rem;
+      background: var(--ink);
+      color: var(--surface);
+      text-decoration: none;
+      transform: translateY(-150%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .shell {
+      width: min(100% - 2.5rem, 72rem);
+      margin-inline: auto;
+    }
+
+    .site-header {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      margin-bottom: 2.25rem;
-      color: var(--rule);
-      letter-spacing: 0.14em;
+      justify-content: space-between;
+      gap: 2rem;
+      min-height: 6rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 720;
+      letter-spacing: 0.11em;
+      line-height: 1.2;
+      text-decoration: none;
       text-transform: uppercase;
-      font-size: 0.72rem;
+    }
+
+    .brand-mark {
+      flex: none;
+      color: var(--accent);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.7rem;
+      font-size: 0.9rem;
       font-weight: 650;
     }
-    .mark svg { display: block; flex: none; }
+
+    .site-nav a {
+      text-decoration-color: transparent;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.35rem;
+      transition: color 160ms ease, text-decoration-color 160ms ease;
+    }
+
+    .site-nav a:hover {
+      color: var(--accent-dark);
+      text-decoration-color: currentColor;
+    }
+
+    .hero {
+      padding: clamp(5.5rem, 11vw, 9.5rem) 0 clamp(4.5rem, 9vw, 7.5rem);
+    }
+
+    .eyebrow {
+      margin: 0 0 1.3rem;
+      color: var(--accent-dark);
+      font-size: 0.75rem;
+      font-weight: 750;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
     h1 {
-      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
-      font-weight: 600;
-      font-size: clamp(2rem, 6vw, 2.7rem);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin: 0 0 0.4rem;
+      max-width: 12ch;
+      margin-bottom: 1.6rem;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: clamp(3.1rem, 8vw, 6.6rem);
+      font-weight: 520;
+      letter-spacing: -0.055em;
+      line-height: 0.94;
     }
-    .place {
-      color: var(--mute);
-      margin: 0 0 1.75rem;
-      font-size: 1rem;
+
+    .hero-copy {
+      max-width: 41rem;
+      margin-bottom: 2rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      line-height: 1.6;
     }
-    .lede {
-      font-size: 1.12rem;
-      margin: 0 0 1.1rem;
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
     }
-    p { margin: 0 0 1.1rem; }
-    h2 {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--rule);
-      margin: 2rem 0 0.7rem;
-      font-weight: 650;
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.25rem;
+      padding: 0.7rem 1.15rem;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 720;
+      text-decoration: none;
+      transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
     }
-    ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
+
+    .button:hover {
+      transform: translateY(-2px);
     }
-    .services li {
-      padding: 0.7rem 0;
+
+    .button-primary {
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .button-primary:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+    }
+
+    .button-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+
+    .section {
+      padding: clamp(4.5rem, 9vw, 7.5rem) 0;
       border-top: 1px solid var(--line);
     }
-    .services li:last-child { border-bottom: 1px solid var(--line); }
-    .services strong { font-weight: 650; }
-    .note { color: var(--mute); font-size: 0.98rem; }
-    a {
-      color: var(--rule);
-      text-underline-offset: 0.15em;
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
     }
-    a:hover { color: var(--ink); }
-    .contact {
-      background: var(--card);
+
+    .section-kicker {
+      margin: 0;
+      color: var(--accent-dark);
+      font-size: 0.75rem;
+      font-weight: 750;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 16ch;
+      margin-bottom: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 4.25rem);
+      font-weight: 520;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .service-card {
+      position: relative;
+      min-height: 19rem;
+      padding: clamp(1.5rem, 4vw, 2.3rem);
+      overflow: hidden;
+      background: rgba(251, 248, 241, 0.82);
       border: 1px solid var(--line);
-      padding: 1.1rem 1.15rem 1.2rem;
-      margin-top: 0.4rem;
+      border-radius: var(--radius);
+      box-shadow: 0 0 0 rgba(40, 34, 26, 0);
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
     }
-    .contact a.mail {
-      font-size: 1.15rem;
-      font-weight: 650;
-      text-decoration: none;
-      border-bottom: 1px solid var(--rule);
+
+    .service-card:hover {
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow);
+      transform: translateY(-4px);
     }
-    .contact .where {
-      color: var(--mute);
-      margin: 0.45rem 0 0;
-      font-size: 0.95rem;
+
+    .card-number {
+      display: block;
+      margin-bottom: clamp(3.5rem, 7vw, 6rem);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
     }
+
+    h3 {
+      margin-bottom: 0.75rem;
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-weight: 680;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+
+    .service-card p {
+      max-width: 36rem;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .scope {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 2rem;
+      align-items: center;
+      padding: 2rem 0 0;
+    }
+
+    .scope p {
+      max-width: 49rem;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .text-link {
+      color: var(--accent-dark);
+      font-weight: 720;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.25rem;
+    }
+
+    .text-link:hover {
+      color: var(--ink);
+    }
+
+    .contact-section {
+      padding: clamp(1rem, 4vw, 3rem) 0 clamp(4rem, 9vw, 7rem);
+    }
+
+    .contact-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 3rem;
+      align-items: end;
+      padding: clamp(2rem, 6vw, 4.5rem);
+      background: var(--ink);
+      border-radius: var(--radius);
+      color: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-panel .section-kicker {
+      color: #e09072;
+    }
+
+    .contact-panel h2 {
+      max-width: 13ch;
+      margin: 0.9rem 0 1.2rem;
+    }
+
+    .contact-copy {
+      max-width: 38rem;
+      margin-bottom: 0;
+      color: #c8cbc4;
+    }
+
+    .contact-details {
+      min-width: max-content;
+      text-align: right;
+    }
+
+    .email {
+      display: inline-block;
+      color: #f3b59e;
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      font-weight: 720;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.35rem;
+    }
+
+    .email:hover {
+      color: var(--surface);
+    }
+
+    .location {
+      margin: 0.65rem 0 0;
+      color: #aeb3ab;
+      font-size: 0.86rem;
+    }
+
     footer {
-      margin-top: 2.6rem;
-      color: var(--mute);
-      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 0 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    @media (max-width: 48rem) {
+      .site-header {
+        min-height: 5rem;
+      }
+
+      .brand {
+        max-width: 11rem;
+      }
+
+      .site-nav {
+        gap: 1rem;
+      }
+
+      .hero {
+        padding-top: 5rem;
+      }
+
+      .hero-copy {
+        max-width: 34rem;
+      }
+
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .service-grid,
+      .contact-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-details {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 34rem) {
+      .shell {
+        width: min(100% - 1.5rem, 72rem);
+      }
+
+      .site-nav a:first-child {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 4.5rem;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 16vw, 4.5rem);
+      }
+
+      .actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card {
+        min-height: 16rem;
+      }
+
+      .scope,
+      footer {
+        grid-template-columns: 1fr;
+        display: grid;
+        gap: 1rem;
+      }
+
+      footer p:last-child {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="frame">
-    <div class="mark">
-      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-        <rect x="1" y="1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M13 5.2A5.2 5.2 0 1 0 13 12.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="shell site-header">
+    <a class="brand" href="#top" aria-label="Cardell Exhibit Service home">
+      <svg class="brand-mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="1" y="1" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M17.5 6.6A7.2 7.2 0 1 0 17.5 17.4" fill="none" stroke="currentColor" stroke-width="1.7"/>
       </svg>
-      Established for existing exhibits
-    </div>
-    <h1>Cardell Exhibit Service</h1>
-    <p class="place">Washington</p>
-    <p class="lede">Successor of record for orphaned learning-center interactives.</p>
-    <p>When the original vendor is gone and the 2010s hardware is failing, the exhibit still has to run. That is the work: keep what is already on the floor alive.</p>
+      <span>Cardell Exhibit Service</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <h2>Services</h2>
-    <ul class="services">
-      <li><strong>Break/fix.</strong> Diagnose and repair existing learning-center interactives.</li>
-      <li><strong>Pi conversions.</strong> Replace dead players and controllers with Raspberry Pi hardware that staff can keep running.</li>
-      <li><strong>Care.</strong> Ongoing service so a gallery can keep the exhibits it already has.</li>
-    </ul>
+  <main id="main-content">
+    <section class="shell hero" id="top" aria-labelledby="hero-heading">
+      <div>
+        <p class="eyebrow">South Puget Sound · Washington</p>
+        <h1 id="hero-heading">Keep the exhibit. Replace what failed.</h1>
+        <p class="hero-copy">Cardell Exhibit Service surveys, repairs, converts, and maintains the learning-center interactives already on your floor.</p>
+        <div class="actions">
+          <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request">Request a survey</a>
+          <a class="button button-secondary" href="#services">See services</a>
+        </div>
+      </div>
 
-    <h2>Not offered</h2>
-    <p class="note">No gallery remodels, no new fabrication, and no display sales. For TVs and projectors, <a href="https://www.descoav.com/">Desco AV</a> in Olympia.</p>
+    </section>
 
-    <h2>Contact</h2>
-    <div class="contact">
-      <a class="mail" href="mailto:nick@cardellexhibits.com">nick@cardellexhibits.com</a>
-      <p class="where">South Puget Sound, Washington</p>
-    </div>
+    <section class="shell section" id="services" aria-labelledby="services-heading">
+      <div class="section-heading">
+        <p class="section-kicker">Services</p>
+        <h2 id="services-heading">Service for the interactives already on your floor.</h2>
+      </div>
 
-    <footer>Cardell Exhibit Service · cardellexhibits.com</footer>
+      <div class="service-grid">
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">01</span>
+          <h3>Survey</h3>
+          <p>A half-day on site, followed by a station-by-station punch list within five days. Each interactive gets a clear recommendation: leave it, schedule a callout, or plan a conversion.</p>
+        </article>
+
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">02</span>
+          <h3>Callout</h3>
+          <p>On-site diagnosis and repair for an existing interactive that does not need a conversion.</p>
+        </article>
+
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">03</span>
+          <h3>Conversion</h3>
+          <p>Keep the exhibit and replace the aging player or control hardware with serviceable, cord-and-plug components, backup media, and a clear operator reference.</p>
+        </article>
+
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">04</span>
+          <h3>Care</h3>
+          <p>Quarterly checks for a named list of interactives over a one-year term. Parts and conversions are handled separately.</p>
+        </article>
+      </div>
+
+      <div class="scope">
+        <p>No gallery remodels, new fabrication, or display sales. For television and projector work, Cardell refers to Desco AV in Olympia.</p>
+        <a class="text-link" href="https://www.descoav.com/">Visit Desco AV</a>
+      </div>
+    </section>
+
+    <section class="shell contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="contact-panel">
+        <div>
+          <p class="section-kicker">Contact</p>
+          <h2 id="contact-heading">Tell us what is happening.</h2>
+          <p class="contact-copy">Include the location, the exhibit or station, what it normally does, and what changed.</p>
+        </div>
+        <div class="contact-details">
+          <a class="email" href="mailto:nick@cardellexhibits.com">nick@cardellexhibits.com</a>
+          <p class="location">South Puget Sound, Washington</p>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="shell">
+    <p>Cardell Exhibit Service</p>
+    <p>Service for existing interactives in Washington.</p>
+  </footer>
 </body>
 </html>
