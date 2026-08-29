@@ -4,26 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cardell Exhibit Service | Existing Interactive Exhibit Service</title>
-  <meta name="description" content="Surveys, service calls, conversions, and ongoing care for existing learning-center interactives in Washington.">
+  <meta name="description" content="On-site surveys, service calls, conversions, and scheduled care for existing interactive exhibits in Washington.">
   <link rel="canonical" href="https://cardellexhibits.com/">
   <meta property="og:title" content="Cardell Exhibit Service">
-  <meta property="og:description" content="Keep the exhibit. Replace what failed. Service for existing learning-center interactives in Washington.">
+  <meta property="og:description" content="On-site surveys, service calls, conversions, and scheduled care for existing interactive exhibits in Washington.">
   <meta property="og:url" content="https://cardellexhibits.com/">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#f3efe6">
+  <meta name="theme-color" content="#1b3128">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <style>
     :root {
-      --paper: #f3efe6;
-      --surface: #fbf8f1;
-      --ink: #171917;
-      --muted: #5e625c;
-      --accent: #a9472b;
-      --accent-dark: #7d301d;
-      --line: #d7d0c3;
-      --line-strong: #aaa293;
-      --shadow: 0 24px 64px rgba(40, 34, 26, 0.09);
-      --radius: 1.25rem;
+      --paper: #1b3128;
+      --surface: #10241c;
+      --ink: #efe2c5;
+      --muted: #c7bea9;
+      --accent: #d9bd78;
+      --line: rgba(239, 226, 197, 0.18);
+      --line-strong: rgba(239, 226, 197, 0.42);
+      --contact-ink: #14291f;
+      --contact-muted: #40584d;
+      --shadow: 0 28px 76px rgba(4, 15, 10, 0.28);
+      --radius: 0.7rem;
     }
 
     * {
@@ -38,11 +39,7 @@
       margin: 0;
       min-width: 18rem;
       min-height: 100vh;
-      background:
-        linear-gradient(rgba(169, 71, 43, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(169, 71, 43, 0.035) 1px, transparent 1px),
-        var(--paper);
-      background-size: 4rem 4rem;
+      background: var(--paper);
       color: var(--ink);
       font: 400 1rem/1.6 "Aptos", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
       text-rendering: optimizeLegibility;
@@ -65,7 +62,7 @@
       z-index: 20;
       padding: 0.65rem 0.9rem;
       background: var(--ink);
-      color: var(--surface);
+      color: var(--contact-ink);
       text-decoration: none;
       transform: translateY(-150%);
     }
@@ -84,25 +81,21 @@
       align-items: center;
       justify-content: space-between;
       gap: 2rem;
-      min-height: 6rem;
+      min-height: 5.75rem;
       border-bottom: 1px solid var(--line);
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      font-size: 0.82rem;
-      font-weight: 720;
-      letter-spacing: 0.11em;
+      color: var(--ink);
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
       line-height: 1.2;
       text-decoration: none;
       text-transform: uppercase;
-    }
-
-    .brand-mark {
-      flex: none;
-      color: var(--accent);
     }
 
     .site-nav {
@@ -114,6 +107,7 @@
     }
 
     .site-nav a {
+      color: var(--muted);
       text-decoration-color: transparent;
       text-decoration-thickness: 1px;
       text-underline-offset: 0.35rem;
@@ -121,17 +115,37 @@
     }
 
     .site-nav a:hover {
-      color: var(--accent-dark);
+      color: var(--ink);
       text-decoration-color: currentColor;
     }
 
     .hero {
-      padding: clamp(5.5rem, 11vw, 9.5rem) 0 clamp(4.5rem, 9vw, 7.5rem);
+      padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem);
+    }
+
+    .logo-lockup {
+      max-width: 44rem;
+      margin: 0 auto clamp(3.5rem, 7vw, 5.75rem);
+      overflow: hidden;
+      border-block: 1px solid var(--line);
+    }
+
+    .logo-lockup img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+      gap: clamp(2.5rem, 7vw, 6rem);
+      align-items: end;
     }
 
     .eyebrow {
       margin: 0 0 1.3rem;
-      color: var(--accent-dark);
+      color: var(--accent);
       font-size: 0.75rem;
       font-weight: 750;
       letter-spacing: 0.16em;
@@ -146,17 +160,17 @@
     }
 
     h1 {
-      max-width: 12ch;
-      margin-bottom: 1.6rem;
+      max-width: 13ch;
+      margin-bottom: 0;
       font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-      font-size: clamp(3.1rem, 8vw, 6.6rem);
+      font-size: clamp(3rem, 7.5vw, 6.1rem);
       font-weight: 520;
       letter-spacing: -0.055em;
       line-height: 0.94;
     }
 
     .hero-copy {
-      max-width: 41rem;
+      max-width: 34rem;
       margin-bottom: 2rem;
       color: var(--muted);
       font-size: clamp(1.05rem, 2vw, 1.25rem);
@@ -175,7 +189,7 @@
       justify-content: center;
       min-height: 3.25rem;
       padding: 0.7rem 1.15rem;
-      border: 1px solid var(--ink);
+      border: 1px solid var(--line-strong);
       border-radius: 999px;
       font-size: 0.9rem;
       font-weight: 720;
@@ -189,17 +203,18 @@
 
     .button-primary {
       background: var(--ink);
-      color: var(--surface);
+      border-color: var(--ink);
+      color: var(--contact-ink);
     }
 
     .button-primary:hover {
-      background: var(--accent-dark);
-      border-color: var(--accent-dark);
+      background: var(--accent);
+      border-color: var(--accent);
     }
 
     .button-secondary:hover {
-      border-color: var(--accent);
-      color: var(--accent-dark);
+      border-color: var(--ink);
+      color: var(--ink);
     }
 
     .section {
@@ -217,7 +232,7 @@
 
     .section-kicker {
       margin: 0;
-      color: var(--accent-dark);
+      color: var(--accent);
       font-size: 0.75rem;
       font-weight: 750;
       letter-spacing: 0.16em;
@@ -245,10 +260,10 @@
       min-height: 19rem;
       padding: clamp(1.5rem, 4vw, 2.3rem);
       overflow: hidden;
-      background: rgba(251, 248, 241, 0.82);
+      background: var(--surface);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: 0 0 0 rgba(40, 34, 26, 0);
+      box-shadow: 0 0 0 rgba(4, 15, 10, 0);
       transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
     }
 
@@ -297,14 +312,14 @@
     }
 
     .text-link {
-      color: var(--accent-dark);
+      color: var(--ink);
       font-weight: 720;
       text-decoration-thickness: 1px;
       text-underline-offset: 0.25rem;
     }
 
     .text-link:hover {
-      color: var(--ink);
+      color: var(--accent);
     }
 
     .contact-section {
@@ -319,12 +334,12 @@
       padding: clamp(2rem, 6vw, 4.5rem);
       background: var(--ink);
       border-radius: var(--radius);
-      color: var(--surface);
+      color: var(--contact-ink);
       box-shadow: var(--shadow);
     }
 
     .contact-panel .section-kicker {
-      color: #e09072;
+      color: var(--contact-muted);
     }
 
     .contact-panel h2 {
@@ -335,7 +350,7 @@
     .contact-copy {
       max-width: 38rem;
       margin-bottom: 0;
-      color: #c8cbc4;
+      color: var(--contact-muted);
     }
 
     .contact-details {
@@ -345,7 +360,7 @@
 
     .email {
       display: inline-block;
-      color: #f3b59e;
+      color: var(--contact-ink);
       font-size: clamp(1.05rem, 2.2vw, 1.35rem);
       font-weight: 720;
       text-decoration-thickness: 1px;
@@ -353,13 +368,17 @@
     }
 
     .email:hover {
-      color: var(--surface);
+      color: #315244;
     }
 
     .location {
       margin: 0.65rem 0 0;
-      color: #aeb3ab;
+      color: var(--contact-muted);
       font-size: 0.86rem;
+    }
+
+    .contact-panel a:focus-visible {
+      outline-color: var(--contact-ink);
     }
 
     footer {
@@ -381,7 +400,8 @@
       }
 
       .brand {
-        max-width: 11rem;
+        max-width: 13rem;
+        font-size: 0.9rem;
       }
 
       .site-nav {
@@ -389,7 +409,12 @@
       }
 
       .hero {
-        padding-top: 5rem;
+        padding-top: 2.5rem;
+      }
+
+      .hero-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
 
       .hero-copy {
@@ -421,7 +446,11 @@
       }
 
       .hero {
-        padding-top: 4.5rem;
+        padding-top: 1.75rem;
+      }
+
+      .logo-lockup {
+        margin-bottom: 3rem;
       }
 
       h1 {
@@ -475,10 +504,6 @@
 
   <header class="shell site-header">
     <a class="brand" href="#top" aria-label="Cardell Exhibit Service home">
-      <svg class="brand-mark" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <rect x="1" y="1" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"/>
-        <path d="M17.5 6.6A7.2 7.2 0 1 0 17.5 17.4" fill="none" stroke="currentColor" stroke-width="1.7"/>
-      </svg>
       <span>Cardell Exhibit Service</span>
     </a>
     <nav class="site-nav" aria-label="Primary">
@@ -489,52 +514,58 @@
 
   <main id="main-content">
     <section class="shell hero" id="top" aria-labelledby="hero-heading">
-      <div>
-        <p class="eyebrow">South Puget Sound · Washington</p>
-        <h1 id="hero-heading">Keep the exhibit. Replace what failed.</h1>
-        <p class="hero-copy">Cardell Exhibit Service surveys, repairs, converts, and maintains the learning-center interactives already on your floor.</p>
-        <div class="actions">
-          <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request">Request a survey</a>
-          <a class="button button-secondary" href="#services">See services</a>
+      <div class="logo-lockup">
+        <img src="cardell-logo.jpg" alt="Cardell Exhibit Service" width="1360" height="455">
+      </div>
+      <div class="hero-layout">
+        <div>
+          <p class="eyebrow">Interactive Exhibit Service · Washington</p>
+          <h1 id="hero-heading">Specialized service for existing interactive exhibits.</h1>
+        </div>
+        <div>
+          <p class="hero-copy">Cardell Exhibit Service provides on-site surveys, repairs, system conversions, and scheduled care for interactive exhibits already in service.</p>
+          <div class="actions">
+            <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request">Request a survey</a>
+            <a class="button button-secondary" href="#services">View services</a>
+          </div>
         </div>
       </div>
-
     </section>
 
     <section class="shell section" id="services" aria-labelledby="services-heading">
       <div class="section-heading">
         <p class="section-kicker">Services</p>
-        <h2 id="services-heading">Service for the interactives already on your floor.</h2>
+        <h2 id="services-heading">Technical service for existing interactive exhibits.</h2>
       </div>
 
       <div class="service-grid">
         <article class="service-card">
           <span class="card-number" aria-hidden="true">01</span>
           <h3>Survey</h3>
-          <p>A half-day on site, followed by a station-by-station punch list within five days. Each interactive gets a clear recommendation: leave it, schedule a callout, or plan a conversion.</p>
+          <p>Following a half-day site visit, Cardell provides a station-by-station punch list within five days. Each station receives a recommendation for continued use, a callout, or conversion.</p>
         </article>
 
         <article class="service-card">
           <span class="card-number" aria-hidden="true">02</span>
           <h3>Callout</h3>
-          <p>On-site diagnosis and repair for an existing interactive that does not need a conversion.</p>
+          <p>On-site diagnosis and repair for existing interactive exhibits when conversion is not required.</p>
         </article>
 
         <article class="service-card">
           <span class="card-number" aria-hidden="true">03</span>
           <h3>Conversion</h3>
-          <p>Keep the exhibit and replace the aging player or control hardware with serviceable, cord-and-plug components, backup media, and a clear operator reference.</p>
+          <p>Retain the existing exhibit while aging player or control hardware is replaced with serviceable, cord-and-plug components, backup media, and operator documentation.</p>
         </article>
 
         <article class="service-card">
           <span class="card-number" aria-hidden="true">04</span>
           <h3>Care</h3>
-          <p>Quarterly checks for a named list of interactives over a one-year term. Parts and conversions are handled separately.</p>
+          <p>Quarterly service checks for a named list of interactive exhibits under a one-year term. Parts and conversions are provided separately.</p>
         </article>
       </div>
 
       <div class="scope">
-        <p>No gallery remodels, new fabrication, or display sales. For television and projector work, Cardell refers to Desco AV in Olympia.</p>
+        <p>Cardell Exhibit Service does not provide gallery remodeling, new fabrication, display sales, or television and projector service. Television and projector inquiries are referred to Desco AV in Olympia.</p>
         <a class="text-link" href="https://www.descoav.com/">Visit Desco AV</a>
       </div>
     </section>
@@ -543,8 +574,8 @@
       <div class="contact-panel">
         <div>
           <p class="section-kicker">Contact</p>
-          <h2 id="contact-heading">Tell us what is happening.</h2>
-          <p class="contact-copy">Include the location, the exhibit or station, what it normally does, and what changed.</p>
+          <h2 id="contact-heading">Request service.</h2>
+          <p class="contact-copy">Email the site location, exhibit or station name, its normal operation, and the issue observed.</p>
         </div>
         <div class="contact-details">
           <a class="email" href="mailto:nick@cardellexhibits.com">nick@cardellexhibits.com</a>
@@ -556,7 +587,7 @@
 
   <footer class="shell">
     <p>Cardell Exhibit Service</p>
-    <p>Service for existing interactives in Washington.</p>
+    <p>Existing interactive exhibit service in Washington.</p>
   </footer>
 </body>
 </html>
