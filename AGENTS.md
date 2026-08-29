@@ -4,7 +4,7 @@ This file is for coding agents working in this repo. It is not site copy.
 
 ## What this is
 
-Public website for Cardell Exhibit Service, a Washington shop that is successor of record for orphaned 2010s learning-center interactives: break/fix, Raspberry Pi conversions, and care of exhibits already on the floor.
+Public website for Cardell Exhibit Service, a Washington shop that is successor of record for orphaned 2010s learning-center interactives: break/fix, player and controller conversions, and care of exhibits already on the floor.
 
 Live: https://cardellexhibits.com/
 Repo: https://github.com/cardellexhibits/cardellexhibits.github.io
