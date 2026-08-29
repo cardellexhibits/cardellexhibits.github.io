@@ -3,147 +3,1021 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cardell Exhibit Service</title>
-  <meta name="description" content="Break/fix, Raspberry Pi conversions, and care for existing learning-center interactives in Washington.">
+  <title>Cardell Exhibit Service | Existing Interactive Exhibit Service</title>
+  <meta name="description" content="On-site surveys, service calls, conversions, and scheduled care for existing interactive exhibits in Washington.">
   <link rel="canonical" href="https://cardellexhibits.com/">
   <meta property="og:title" content="Cardell Exhibit Service">
-  <meta property="og:description" content="Successor of record for orphaned learning-center interactives. Break/fix, Pi conversions, and care.">
+  <meta property="og:description" content="On-site surveys, service calls, conversions, and scheduled care for existing interactive exhibits in Washington.">
   <meta property="og:url" content="https://cardellexhibits.com/">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#f2ebe0">
+  <meta name="theme-color" content="#1b3128">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <style>
     :root {
-      --paper: #f2ebe0;
-      --card: #faf6ee;
-      --ink: #1e1a14;
-      --mute: #5c564c;
-      --rule: #6b2e22;
-      --line: #d9d0c3;
+      --paper: #1b3128;
+      --surface: #10241c;
+      --ink: #efe2c5;
+      --muted: #c7bea9;
+      --accent: #d9bd78;
+      --line: rgba(239, 226, 197, 0.18);
+      --line-strong: rgba(239, 226, 197, 0.42);
+      --contact-ink: #14291f;
+      --shadow: 0 18px 48px rgba(4, 15, 10, 0.22);
+      --display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      --mono: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
     }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: var(--paper);
-      color: var(--ink);
-      font: 18px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      min-width: 18rem;
       min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(217, 189, 120, 0.07), transparent 42rem),
+        repeating-linear-gradient(0deg, rgba(239, 226, 197, 0.012) 0 1px, transparent 1px 4px),
+        var(--paper);
+      color: var(--ink);
+      font: 400 1rem/1.6 "Aptos", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+      text-rendering: optimizeLegibility;
     }
-    .frame {
-      max-width: 38rem;
-      margin: 0 auto;
-      padding: 2.5rem 1.4rem 3.5rem;
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0.65rem;
+      z-index: 100;
+      border: 1px solid var(--line);
+      pointer-events: none;
     }
-    .mark {
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 0.2rem;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 120;
+      padding: 0.65rem 0.9rem;
+      background: var(--ink);
+      color: var(--contact-ink);
+      text-decoration: none;
+      transform: translateY(-150%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .shell {
+      position: relative;
+      width: min(100% - 2.5rem, 72rem);
+      margin-inline: auto;
+    }
+
+    .site-header {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      margin-bottom: 2.25rem;
-      color: var(--rule);
-      letter-spacing: 0.14em;
+      justify-content: flex-end;
+      gap: 2rem;
+      min-height: 5.75rem;
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 3px 0 rgba(239, 226, 197, 0.025);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.7rem;
+      font: 650 0.72rem/1.2 var(--mono);
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-size: 0.72rem;
       font-weight: 650;
     }
-    .mark svg { display: block; flex: none; }
-    h1 {
-      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
-      font-weight: 600;
-      font-size: clamp(2rem, 6vw, 2.7rem);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin: 0 0 0.4rem;
+
+    .site-nav a {
+      color: var(--muted);
+      text-decoration-color: transparent;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.35rem;
+      transition: color 200ms ease, text-decoration-color 200ms ease;
     }
-    .place {
-      color: var(--mute);
-      margin: 0 0 1.75rem;
+
+    .site-nav a:hover {
+      color: var(--ink);
+      text-decoration-color: currentColor;
+    }
+
+    .hero {
+      isolation: isolate;
+      padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: clamp(-14rem, -12vw, -6rem);
+      bottom: clamp(1rem, 4vw, 3.5rem);
+      z-index: -1;
+      width: clamp(20rem, 48vw, 38rem);
+      aspect-ratio: 1;
+      border: 1px solid rgba(217, 189, 120, 0.1);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, transparent 0 27%, rgba(217, 189, 120, 0.1) 27.2% 27.5%, transparent 27.8% 46%, rgba(217, 189, 120, 0.08) 46.2% 46.5%, transparent 46.8% 67%, rgba(217, 189, 120, 0.07) 67.2% 67.5%, transparent 67.8%),
+        repeating-conic-gradient(from 0deg, rgba(217, 189, 120, 0.08) 0 0.45deg, transparent 0.45deg 15deg);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .logo-lockup {
+      position: relative;
+      max-width: 44rem;
+      margin: 0 auto clamp(3.5rem, 7vw, 5.75rem);
+      padding: 0.55rem;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      animation: logo-reveal 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .logo-lockup::before,
+    .logo-lockup::after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      width: 2.25rem;
+      height: 2.25rem;
+      pointer-events: none;
+    }
+
+    .logo-lockup::before {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid var(--accent);
+      border-left: 2px solid var(--accent);
+    }
+
+    .logo-lockup::after {
+      right: -1px;
+      bottom: -1px;
+      border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .logo-lockup img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+      gap: clamp(2.5rem, 7vw, 6rem);
+      align-items: end;
+    }
+
+    .hero-layout > * {
+      animation: rise-in 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .hero-layout > *:last-child {
+      animation-delay: 110ms;
+    }
+
+    .eyebrow {
+      margin: 0 0 1.3rem;
+      color: var(--accent);
+      font: 750 0.7rem/1.4 var(--mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 13ch;
+      margin-bottom: 0;
+      font-family: var(--display);
+      font-size: clamp(3rem, 7.5vw, 6.1rem);
+      font-weight: 520;
+      letter-spacing: -0.035em;
+      line-height: 0.94;
+    }
+
+    .hero-copy {
+      max-width: 34rem;
+      margin-bottom: 2rem;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.25rem;
+      padding: 0.7rem 1.15rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 0;
+      font: 720 0.72rem/1 var(--mono);
+      letter-spacing: 0.07em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background-color 240ms ease, border-color 240ms ease, box-shadow 240ms ease, color 240ms ease, transform 240ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0 rgba(217, 189, 120, 0.18);
+    }
+
+    .button-primary {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--contact-ink);
+    }
+
+    .button-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .button-secondary:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .section {
+      padding: clamp(4.5rem, 9vw, 7.5rem) 0;
+    }
+
+    .meander {
+      height: 0.8rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'%3E%3Cpath d='M0 6h8V1h8v10h8V6h8' fill='none' stroke='%23d9bd78' stroke-width='1'/%3E%3C/svg%3E");
+      background-position: center;
+      background-repeat: repeat-x;
+      background-size: 2rem 0.75rem;
+      opacity: 0.5;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .section-kicker {
+      margin: 0;
+      color: var(--accent);
+      font: 750 0.7rem/1.4 var(--mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 16ch;
+      margin-bottom: 0;
+      font-family: var(--display);
+      text-transform: uppercase;
+      font-size: clamp(2.2rem, 5vw, 4.25rem);
+      font-weight: 520;
+      letter-spacing: -0.025em;
+      line-height: 1.02;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .service-card {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      min-height: 19rem;
+      padding: clamp(1.5rem, 4vw, 2.3rem);
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 0;
+      box-shadow: 0 0 0 rgba(4, 15, 10, 0);
+      transition: border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .service-card::after {
+      content: "";
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 1.15rem;
+      height: 1.15rem;
+      border-top: 1px solid var(--line-strong);
+      border-right: 1px solid var(--line-strong);
+      transition: border-color 180ms ease, transform 260ms ease;
+    }
+
+    .service-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card:hover::after {
+      border-color: var(--accent);
+      transform: translate(-0.2rem, 0.2rem);
+    }
+
+    .card-number {
+      display: block;
+      margin-bottom: clamp(3.5rem, 7vw, 6rem);
+      color: var(--accent);
+      font: 800 0.68rem/1 var(--mono);
+      letter-spacing: 0.1em;
+    }
+
+    h3 {
+      margin-bottom: 0.75rem;
+      font-family: var(--display);
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-weight: 560;
+      letter-spacing: 0.015em;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .service-card p {
+      max-width: 36rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .service-body {
+      display: grid;
+      flex: 1;
+      gap: 1rem;
+      align-content: start;
+    }
+
+    .service-body .service-intro {
+      color: var(--ink);
       font-size: 1rem;
     }
-    .lede {
-      font-size: 1.12rem;
-      margin: 0 0 1.1rem;
+
+    .service-body strong {
+      color: var(--ink);
+      font-weight: 720;
     }
-    p { margin: 0 0 1.1rem; }
-    h2 {
-      font-size: 0.72rem;
+
+    .service-card .button {
+      align-self: flex-start;
+      margin-top: 2rem;
+    }
+
+    .process {
+      margin-top: clamp(4rem, 8vw, 6.5rem);
+      padding-top: clamp(2.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--line);
+    }
+
+    .process-heading {
+      display: grid;
+      grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: clamp(2rem, 4vw, 3rem);
+    }
+
+    .process-heading h3 {
+      max-width: 18ch;
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.25rem);
+      letter-spacing: -0.01em;
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0;
+      padding: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .process-step {
+      min-height: 13rem;
+      padding: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    .process-step + .process-step {
+      border-left: 1px solid var(--line);
+    }
+
+    .process-number {
+      display: block;
+      margin-bottom: clamp(2rem, 4vw, 3.25rem);
+      color: var(--accent);
+      font: 800 0.68rem/1 var(--mono);
+      letter-spacing: 0.1em;
+    }
+
+    .process-step h4 {
+      margin: 0 0 0.65rem;
+      font-family: var(--display);
+      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+      font-weight: 560;
+      letter-spacing: 0.015em;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .process-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .principles {
+      margin-top: 1rem;
+      padding: 1.35rem clamp(1.25rem, 3vw, 2rem);
+      background: rgba(16, 36, 28, 0.58);
+      border: 1px solid var(--line);
+    }
+
+    .principles-label {
+      margin: 0 0 1rem;
+      color: var(--accent);
+      font: 750 0.68rem/1.4 var(--mono);
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--rule);
-      margin: 2rem 0 0.7rem;
-      font-weight: 650;
     }
-    ul {
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       margin: 0;
       padding: 0;
       list-style: none;
     }
-    .services li {
-      padding: 0.7rem 0;
-      border-top: 1px solid var(--line);
-    }
-    .services li:last-child { border-bottom: 1px solid var(--line); }
-    .services strong { font-weight: 650; }
-    .note { color: var(--mute); font-size: 0.98rem; }
-    a {
-      color: var(--rule);
-      text-underline-offset: 0.15em;
-    }
-    a:hover { color: var(--ink); }
-    .contact {
-      background: var(--card);
-      border: 1px solid var(--line);
-      padding: 1.1rem 1.15rem 1.2rem;
-      margin-top: 0.4rem;
-    }
-    .contact a.mail {
-      font-size: 1.15rem;
+
+    .principles-list li {
+      position: relative;
+      padding: 0.2rem clamp(1rem, 2.5vw, 1.75rem);
+      color: var(--ink);
       font-weight: 650;
-      text-decoration: none;
-      border-bottom: 1px solid var(--rule);
+      line-height: 1.45;
     }
-    .contact .where {
-      color: var(--mute);
-      margin: 0.45rem 0 0;
-      font-size: 0.95rem;
+
+    .principles-list li:first-child {
+      padding-left: 1.25rem;
     }
+
+    .principles-list li + li {
+      border-left: 1px solid var(--line);
+    }
+
+    .principles-list li::before {
+      content: "";
+      position: absolute;
+      top: 0.72rem;
+      left: 0;
+      width: 0.38rem;
+      height: 0.38rem;
+      border: 1px solid var(--accent);
+      transform: rotate(45deg);
+    }
+
+    .not-offered-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 1.5rem;
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+      list-style: none;
+    }
+
+    .not-offered-list li {
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .not-offered-list li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .not-offered-list a {
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2rem;
+      transition: color 200ms ease;
+    }
+
+    .not-offered-list a:hover {
+      color: var(--ink);
+    }
+
+    .contact-section {
+      padding: clamp(1rem, 4vw, 3rem) 0 clamp(4rem, 9vw, 7rem);
+    }
+
+    .contact-panel {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 3rem;
+      align-items: end;
+      padding: clamp(2rem, 6vw, 4.5rem);
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 0;
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .contact-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 0.75rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'%3E%3Cpath d='M0 6h8V1h8v10h8V6h8' fill='none' stroke='%23d9bd78' stroke-width='1'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 2rem 0.75rem;
+      opacity: 0.55;
+    }
+
+    .contact-panel .section-kicker {
+      color: var(--accent);
+    }
+
+    .contact-panel h2 {
+      max-width: 13ch;
+      margin: 0.9rem 0 1.2rem;
+    }
+
+    .contact-copy {
+      max-width: 38rem;
+      margin-bottom: 1.25rem;
+      color: var(--muted);
+    }
+
+    .contact-note {
+      max-width: 38rem;
+      margin: 0;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
+    }
+
+    .contact-details {
+      min-width: max-content;
+      text-align: right;
+    }
+
+    .email {
+      display: inline-block;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      font-weight: 720;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.35rem;
+      transition: color 200ms ease;
+    }
+
+    .email:hover {
+      color: var(--accent);
+    }
+
+    .contact-panel a:focus-visible {
+      outline-color: var(--accent);
+    }
+
     footer {
-      margin-top: 2.6rem;
-      color: var(--mute);
-      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 0 0 2.5rem;
+      color: var(--muted);
+      font: 600 0.68rem/1.5 var(--mono);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    .footer-email {
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.25rem;
+      transition: color 200ms ease;
+    }
+
+    .footer-email:hover {
+      color: var(--ink);
+    }
+
+    @keyframes logo-reveal {
+      from {
+        opacity: 0;
+        clip-path: inset(0 50% 0 50%);
+      }
+      to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        translate: 0 1rem;
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+      }
+    }
+
+    @supports (animation-timeline: view()) {
+      .section-heading,
+      .service-card,
+      .process,
+      .principles,
+      .contact-panel {
+        animation: rise-in linear both;
+        animation-delay: 0ms;
+        animation-timeline: view();
+        animation-range: entry 5% cover 24%;
+      }
+    }
+
+    @media (max-width: 48rem) {
+      .site-header {
+        min-height: 5rem;
+      }
+
+      .site-nav {
+        gap: 1rem;
+      }
+
+      .hero {
+        padding-top: 2.5rem;
+      }
+
+      .hero-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-copy {
+        max-width: 34rem;
+      }
+
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .process-heading,
+      .process-steps,
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .process-heading {
+        gap: 1rem;
+      }
+
+      .process-step {
+        min-height: 0;
+      }
+
+      .process-step + .process-step {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
+      .principles-list {
+        gap: 0.85rem;
+      }
+
+      .principles-list li,
+      .principles-list li:first-child {
+        padding: 0.75rem 0 0.75rem 1.25rem;
+      }
+
+      .principles-list li + li {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
+      .service-grid,
+      .contact-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-details {
+        min-width: 0;
+        text-align: left;
+      }
+
+      .email {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    @media (max-width: 34rem) {
+      body::before {
+        inset: 0.3rem;
+      }
+
+      .shell {
+        width: min(100% - 1.5rem, 72rem);
+      }
+
+      .site-nav a:first-child {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 1.75rem;
+      }
+
+      .hero::before {
+        right: -14rem;
+      }
+
+      .logo-lockup {
+        margin-bottom: 3rem;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 16vw, 4.5rem);
+      }
+
+      .actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .service-card {
+        min-height: 16rem;
+      }
+
+      footer {
+        grid-template-columns: 1fr;
+        display: grid;
+        gap: 1rem;
+      }
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+
+      .button:hover,
+      .service-card:hover,
+      .service-card:hover::before,
+      .service-card:hover::after {
+        transform: none;
+        translate: none;
+      }
+
+      .logo-lockup,
+      .hero-layout > *,
+      .section-heading,
+      .service-card,
+      .process,
+      .principles,
+      .contact-panel {
+        opacity: 1 !important;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="frame">
-    <div class="mark">
-      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-        <rect x="1" y="1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M13 5.2A5.2 5.2 0 1 0 13 12.8" fill="none" stroke="currentColor" stroke-width="1.6"/>
-      </svg>
-      Established for existing exhibits
-    </div>
-    <h1>Cardell Exhibit Service</h1>
-    <p class="place">Washington</p>
-    <p class="lede">Successor of record for orphaned learning-center interactives.</p>
-    <p>When the original vendor is gone and the 2010s hardware is failing, the exhibit still has to run. That is the work: keep what is already on the floor alive.</p>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-    <h2>Services</h2>
-    <ul class="services">
-      <li><strong>Break/fix.</strong> Diagnose and repair existing learning-center interactives.</li>
-      <li><strong>Pi conversions.</strong> Replace dead players and controllers with Raspberry Pi hardware that staff can keep running.</li>
-      <li><strong>Care.</strong> Ongoing service so a gallery can keep the exhibits it already has.</li>
-    </ul>
+  <header class="shell site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <h2>Not offered</h2>
-    <p class="note">No gallery remodels, no new fabrication, and no display sales. For TVs and projectors, <a href="https://www.descoav.com/">Desco AV</a> in Olympia.</p>
+  <main id="main-content">
+    <section class="shell hero" id="top" aria-labelledby="hero-heading">
+      <div class="logo-lockup">
+        <img src="cardell-logo.jpg" alt="Cardell Exhibit Service" width="1360" height="455">
+      </div>
+      <div class="hero-layout">
+        <div>
+          <p class="eyebrow">Interactive Exhibit Service · Washington</p>
+          <h1 id="hero-heading">The original shop is gone. Saturday still happens.</h1>
+        </div>
+        <div>
+          <p class="hero-copy">You keep the exhibit. We do not rebuild the gallery.</p>
+          <div class="actions">
+            <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about survey</a>
+            <a class="button button-secondary" href="#services">View services</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <h2>Contact</h2>
-    <div class="contact">
-      <a class="mail" href="mailto:nick@cardellexhibits.com">nick@cardellexhibits.com</a>
-      <p class="where">South Puget Sound, Washington</p>
-    </div>
+    <div class="shell meander" aria-hidden="true"></div>
 
-    <footer>Cardell Exhibit Service · cardellexhibits.com</footer>
+    <section class="shell section" id="services" aria-labelledby="services-heading">
+      <div class="section-heading">
+        <p class="section-kicker">Services</p>
+        <h2 id="services-heading">Technical service for existing interactive exhibits.</h2>
+      </div>
+
+      <div class="service-grid">
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">01</span>
+          <h3>Survey</h3>
+          <div class="service-body">
+            <p class="service-intro">We come to the learning center. We play each interactive, open the cabinet if it is meant to open, and write down what is in it and what is failing.</p>
+            <p><strong>You get:</strong> one half-day on site, then a punch list in five days. Each station has a name, what is wrong, and one clear next step.</p>
+            <p><strong>You do not get:</strong> a repair that day, new videos, or a new cabinet. If something is hardwired, a TV, or a projector, the list says who should handle it. We do not surprise you with that work.</p>
+          </div>
+          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about survey</a>
+        </article>
+
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">02</span>
+          <h3>Break/fix</h3>
+          <div class="service-body">
+            <p class="service-intro">The station already on the floor. We diagnose it and repair it so the same show runs again.</p>
+            <p><strong>You get:</strong> someone on site who already knows this kind of cabinet. If a cable, SD card, power supply, or button died, we replace that and the exhibit stays itself.</p>
+            <p><strong>You do not get:</strong> a new computer if the old player is dead. That is a conversion, and we will say so before we do it. We do not rewrite your content or rebuild the woodwork.</p>
+          </div>
+          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Break%2Ffix%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStation%20name%20or%20how%20you%20would%20describe%20it%3A%0D%0A%0D%0AWhat%20it%20is%20supposed%20to%20do%3A%0D%0A%0D%0AWhat%20it%20is%20doing%20instead%3A%0D%0A%0D%0AWhen%20it%20started%20%28if%20you%20know%29%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about break/fix</a>
+        </article>
+
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">03</span>
+          <h3>Pi conversion</h3>
+          <div class="service-body">
+            <p class="service-intro">The player or controller is dead. We take it out and put in a Raspberry Pi that plays the same media, uses the same buttons, and sits in the same cabinet.</p>
+            <p><strong>You get:</strong> the station working again, a spare card you can swap if you have to, and a one-page operator card in plain English (how to power it, how to swap the spare, who to email). Your staff can keep it running without us in the building.</p>
+            <p><strong>You do not get:</strong> new videos, a new cabinet, a new TV, or anything that mounts to the building. If a display is the thing that failed, that is Desco AV in Olympia. If you want a carpenter, you hire the carpenter. We do the player.</p>
+          </div>
+          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Conversion%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStation%20name%20or%20how%20you%20would%20describe%20it%3A%0D%0A%0D%0AWhat%20it%20is%20supposed%20to%20do%3A%0D%0A%0D%0AIs%20the%20player%20or%20controller%20dead%2C%20or%20just%20the%20show%3A%0D%0A%0D%0ADoes%20the%20screen%2FTV%20still%20work%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a conversion</a>
+        </article>
+
+        <article class="service-card">
+          <span class="card-number" aria-hidden="true">04</span>
+          <h3>Care</h3>
+          <div class="service-body">
+            <p class="service-intro">A one-year agreement for the stations you name. We come back on a schedule, play them, and tell you what is dying before Saturday does.</p>
+            <p><strong>You get:</strong> a named list in writing, periodic checks, and a person who already has the spare and the notes. Parts and conversions are extra, and we quote them first.</p>
+            <p><strong>You do not get:</strong> unlimited emergency visits, new stations added in silence, or a remodel. If something dies between checks, that is a break/fix visit, quoted like one.</p>
+          </div>
+          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Care%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStations%20to%20put%20on%20the%20list%20%28names%20or%20descriptions%29%3A%0D%0A%0D%0AProblems%20you%20already%20know%20about%3A%0D%0A%0D%0AAny%20Saturday%20or%20school-year%20dates%20we%20should%20not%20miss%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about care</a>
+        </article>
+      </div>
+
+      <section class="process" aria-labelledby="process-heading">
+        <div class="process-heading">
+          <p class="section-kicker">How it works</p>
+          <h3 id="process-heading">Survey to approved work.</h3>
+        </div>
+
+        <ol class="process-steps" role="list">
+          <li class="process-step">
+            <span class="process-number" aria-hidden="true">01</span>
+            <h4>Survey</h4>
+            <p>We spend a half-day on the floor.</p>
+          </li>
+          <li class="process-step">
+            <span class="process-number" aria-hidden="true">02</span>
+            <h4>Punch list</h4>
+            <p>Within five days you get a written punch list.</p>
+          </li>
+          <li class="process-step">
+            <span class="process-number" aria-hidden="true">03</span>
+            <h4>Break/fix, conversion, or care</h4>
+            <p>Then only what you circled gets done. Nothing else starts until you say so.</p>
+          </li>
+        </ol>
+
+      </section>
+
+      <section class="principles" aria-labelledby="principles-heading">
+        <h3 class="principles-label" id="principles-heading">Why Cardell</h3>
+        <ul class="principles-list" role="list">
+          <li>Preserve the existing exhibit.</li>
+          <li>Document the work.</li>
+          <li>Leave a spare and a one-page operator card.</li>
+        </ul>
+      </section>
+
+      <section class="principles not-offered" aria-labelledby="not-offered-heading">
+        <h3 class="principles-label" id="not-offered-heading">Not offered</h3>
+        <ul class="not-offered-list" role="list">
+          <li>Gallery remodels.</li>
+          <li>New exhibits.</li>
+          <li>New videos.</li>
+          <li>TVs and projectors (<a href="https://www.descoav.com/">Desco AV, Olympia</a>).</li>
+          <li>Building mounts.</li>
+          <li>Electrical.</li>
+          <li>Networks.</li>
+        </ul>
+      </section>
+
+    </section>
+
+    <section class="shell contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="contact-panel">
+        <div>
+          <p class="section-kicker">Contact</p>
+          <h2 id="contact-heading">Service inquiries.</h2>
+          <p class="contact-copy">Choose the service above. Each button opens an email addressed to Cardell with the right questions already in place.</p>
+          <p class="contact-note">If you do not know the technical name, describe it like you would to a colleague. That is enough.</p>
+        </div>
+        <div class="contact-details">
+          <a class="email" href="mailto:nick@cardellexhibits.com?subject=Exhibit%20help&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AWhat%20you%20need%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">nick@cardellexhibits.com</a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="shell">
+    <p>Cardell Exhibit Service</p>
+    <p>South Puget Sound, Washington</p>
+    <a class="footer-email" href="mailto:nick@cardellexhibits.com?subject=Exhibit%20help&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AWhat%20you%20need%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">nick@cardellexhibits.com</a>
+  </footer>
 </body>
 </html>
