@@ -399,6 +399,120 @@
       font-size: 0.96rem;
     }
 
+    .process {
+      margin-top: clamp(4rem, 8vw, 6.5rem);
+      padding-top: clamp(2.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--line);
+    }
+
+    .process-heading {
+      display: grid;
+      grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: clamp(2rem, 4vw, 3rem);
+    }
+
+    .process-heading h3 {
+      max-width: 18ch;
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3.25rem);
+      letter-spacing: -0.01em;
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0;
+      padding: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .process-step {
+      min-height: 13rem;
+      padding: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    .process-step + .process-step {
+      border-left: 1px solid var(--line);
+    }
+
+    .process-number {
+      display: block;
+      margin-bottom: clamp(2rem, 4vw, 3.25rem);
+      color: var(--accent);
+      font: 800 0.68rem/1 var(--mono);
+      letter-spacing: 0.1em;
+    }
+
+    .process-step h4 {
+      margin: 0 0 0.65rem;
+      font-family: var(--display);
+      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+      font-weight: 560;
+      letter-spacing: 0.015em;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .process-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .principles {
+      margin-top: 1rem;
+      padding: 1.35rem clamp(1.25rem, 3vw, 2rem);
+      background: rgba(16, 36, 28, 0.58);
+      border: 1px solid var(--line);
+    }
+
+    .principles-label {
+      margin: 0 0 1rem;
+      color: var(--accent);
+      font: 750 0.68rem/1.4 var(--mono);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .principles-list li {
+      position: relative;
+      padding: 0.2rem clamp(1rem, 2.5vw, 1.75rem);
+      color: var(--ink);
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    .principles-list li:first-child {
+      padding-left: 1.25rem;
+    }
+
+    .principles-list li + li {
+      border-left: 1px solid var(--line);
+    }
+
+    .principles-list li::before {
+      content: "";
+      position: absolute;
+      top: 0.72rem;
+      left: 0;
+      width: 0.38rem;
+      height: 0.38rem;
+      border: 1px solid var(--accent);
+      transform: rotate(45deg);
+    }
+
     .contact-section {
       padding: clamp(1rem, 4vw, 3rem) 0 clamp(4rem, 9vw, 7rem);
     }
@@ -440,8 +554,38 @@
 
     .contact-copy {
       max-width: 38rem;
-      margin-bottom: 0;
+      margin-bottom: 1.25rem;
       color: var(--muted);
+    }
+
+    .contact-checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 1.5rem;
+      max-width: 38rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .contact-checklist li {
+      position: relative;
+      padding: 0.6rem 0 0.6rem 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
+      font: 650 0.72rem/1.4 var(--mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .contact-checklist li::before {
+      content: "";
+      position: absolute;
+      top: 1rem;
+      left: 0;
+      width: 0.3rem;
+      height: 0.3rem;
+      background: var(--accent);
     }
 
     .contact-details {
@@ -514,6 +658,8 @@
     @supports (animation-timeline: view()) {
       .section-heading,
       .service-card,
+      .process,
+      .principles,
       .contact-panel {
         animation: rise-in linear both;
         animation-delay: 0ms;
@@ -547,6 +693,39 @@
       .section-heading {
         grid-template-columns: 1fr;
         gap: 1rem;
+      }
+
+      .process-heading,
+      .process-steps,
+      .principles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .process-heading {
+        gap: 1rem;
+      }
+
+      .process-step {
+        min-height: 0;
+      }
+
+      .process-step + .process-step {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
+      .principles-list {
+        gap: 0.85rem;
+      }
+
+      .principles-list li,
+      .principles-list li:first-child {
+        padding: 0.75rem 0 0.75rem 1.25rem;
+      }
+
+      .principles-list li + li {
+        border-top: 1px solid var(--line);
+        border-left: 0;
       }
 
       .service-grid,
@@ -611,6 +790,10 @@
         min-height: 16rem;
       }
 
+      .contact-checklist {
+        grid-template-columns: 1fr;
+      }
+
       footer {
         grid-template-columns: 1fr;
         display: grid;
@@ -647,6 +830,8 @@
       .hero-layout > *,
       .section-heading,
       .service-card,
+      .process,
+      .principles,
       .contact-panel {
         opacity: 1 !important;
       }
@@ -676,7 +861,7 @@
         <div>
           <p class="hero-copy">Cardell Exhibit Service surveys, repairs, converts, and maintains interactive exhibits already in service throughout Washington.</p>
           <div class="actions">
-            <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request">Request a survey</a>
+            <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20location%3A%0D%0AExhibit%20or%20station%20name%3A%0D%0AIntended%20operation%3A%0D%0AObserved%20condition%3A">Request a survey</a>
             <a class="button button-secondary" href="#services">View services</a>
           </div>
         </div>
@@ -695,7 +880,7 @@
         <article class="service-card">
           <span class="card-number" aria-hidden="true">01</span>
           <h3>Survey</h3>
-          <p>Following a half-day site visit, Cardell provides a station-by-station punch list within five days. Each station receives a recommendation for continued use, a callout, or conversion.</p>
+          <p>Following a half-day site visit, Cardell provides a station-by-station punch list within five days. The punch list identifies whether each station stays in service, needs a callout, or should be converted.</p>
         </article>
 
         <article class="service-card">
@@ -717,6 +902,41 @@
         </article>
       </div>
 
+      <section class="process" aria-labelledby="process-heading">
+        <div class="process-heading">
+          <p class="section-kicker">Process</p>
+          <h3 id="process-heading">From survey to approved work.</h3>
+        </div>
+
+        <ol class="process-steps" role="list">
+          <li class="process-step">
+            <span class="process-number" aria-hidden="true">01</span>
+            <h4>Survey</h4>
+            <p>A half-day site visit reviews the condition and intended operation of each station.</p>
+          </li>
+          <li class="process-step">
+            <span class="process-number" aria-hidden="true">02</span>
+            <h4>Punch list</h4>
+            <p>Within five days, Cardell delivers a station-by-station plan: leave in service, callout, or convert.</p>
+          </li>
+          <li class="process-step">
+            <span class="process-number" aria-hidden="true">03</span>
+            <h4>Callout / Conversion / Care</h4>
+            <p>Approved work moves forward as a repair, conversion, or scheduled quarterly care.</p>
+          </li>
+        </ol>
+
+      </section>
+
+      <section class="principles" aria-labelledby="principles-heading">
+        <h3 class="principles-label" id="principles-heading">Why Cardell</h3>
+        <ul class="principles-list" role="list">
+          <li>Preserve the existing exhibit.</li>
+          <li>Document the work.</li>
+          <li>Leave serviceable components and clear operator guidance.</li>
+        </ul>
+      </section>
+
     </section>
 
     <section class="shell contact-section" id="contact" aria-labelledby="contact-heading">
@@ -724,10 +944,16 @@
         <div>
           <p class="section-kicker">Contact</p>
           <h2 id="contact-heading">Service inquiries.</h2>
-          <p class="contact-copy">For survey or service inquiries, provide the site location, exhibit or station name, intended operation, and observed condition.</p>
+          <p class="contact-copy">Include these four details in your email:</p>
+          <ul class="contact-checklist" role="list">
+            <li>Site location</li>
+            <li>Exhibit or station name</li>
+            <li>Intended operation</li>
+            <li>Observed condition</li>
+          </ul>
         </div>
         <div class="contact-details">
-          <a class="email" href="mailto:nick@cardellexhibits.com">nick@cardellexhibits.com</a>
+          <a class="email" href="mailto:nick@cardellexhibits.com?subject=Service%20inquiry&amp;body=Site%20location%3A%0D%0AExhibit%20or%20station%20name%3A%0D%0AIntended%20operation%3A%0D%0AObserved%20condition%3A">nick@cardellexhibits.com</a>
           <p class="location">South Puget Sound, Washington</p>
         </div>
       </div>
