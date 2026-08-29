@@ -21,7 +21,7 @@ Public copy is `index.html`. Do not put product copy in this file.
 - Keep the site small: contact, services, portfolio as it grows. No marketing landing page, no blog, no shop.
 - Never mention AI, models, Qwen, Grok, Codex, or similar in public-facing copy (including index.html, titles, meta, alt text, and visible comments).
 - No prices.
-- Do not offer gallery remodels, new fabrication, or display sales. TVs and projectors: refer to Desco AV in Olympia (https://www.descoav.com/).
+- Do not offer gallery remodels, new fabrication, or display sales. TVs and projectors: we do not do them. No named display vendors on the public site.
 - Do not put LOTT, Brightwater, Cedar River, Seitel, or any other client name on the portfolio unless Nick has said that job may be shown. The LOTT microscope work is real but Seitel-era; it stays off the site until Nick or Manager say otherwise.
 - No phone number until a live Quo (OpenPhone) 360 or 253 is provided. Email only: nick@cardellexhibits.com.
 - Do not email clients from this work. Do not charge cards or buy GitHub, GoDaddy, or hosting add-ons. If a change would cost money, stop.
