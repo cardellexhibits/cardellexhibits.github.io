@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Washington Interactive Station Service | Cardell Exhibit Service</title>
-  <meta name="description" content="Survey, repair, conversion, and scheduled care for existing learning-center interactive stations built into cabinets in South Puget Sound, Washington.">
+  <title>Existing Interactive Station Service in Washington | Cardell Exhibit Service</title>
+  <meta name="description" content="Survey, repair, conversion, and scheduled care for learning-center interactive stations already on the floor in South Puget Sound, Washington.">
   <link rel="canonical" href="https://cardellexhibits.com/">
-  <meta property="og:title" content="Washington Interactive Station Service | Cardell Exhibit Service">
-  <meta property="og:description" content="Survey, repair, conversion, and scheduled care for existing learning-center interactive stations built into cabinets in South Puget Sound, Washington.">
+  <meta property="og:title" content="Existing Interactive Station Service in Washington | Cardell Exhibit Service">
+  <meta property="og:description" content="Survey, repair, conversion, and scheduled care for learning-center interactive stations already on the floor in South Puget Sound, Washington.">
   <meta property="og:url" content="https://cardellexhibits.com/">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cardellexhibits.com/cardell-logo.jpg">
+  <meta property="og:image:alt" content="Cardell Exhibit Service">
   <meta name="theme-color" content="#1b3128">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <style>
@@ -127,9 +129,35 @@
       text-decoration-color: currentColor;
     }
 
-    .nav-toggle,
-    .nav-toggle-label {
+    .mobile-navigation {
       display: none;
+    }
+
+    .menu-icon {
+      position: relative;
+      display: block;
+      width: 1.15rem;
+      height: 1px;
+      color: var(--accent);
+      background: currentColor;
+    }
+
+    .menu-icon::before,
+    .menu-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .menu-icon::before {
+      top: -0.32rem;
+    }
+
+    .menu-icon::after {
+      top: 0.32rem;
     }
 
     .hero {
@@ -724,10 +752,67 @@
     @media (max-width: 48rem) {
       .site-header {
         min-height: 5rem;
+        flex-wrap: wrap;
+        gap: 0;
       }
 
-      .site-nav {
+      .desktop-nav {
+        display: none;
+      }
+
+      .mobile-navigation {
+        display: block;
+        width: 100%;
+      }
+
+      .mobile-navigation > summary {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.65rem;
+        width: fit-content;
+        min-height: 2.75rem;
+        margin-left: auto;
+        padding: 0.75rem 0;
+        color: var(--ink);
+        cursor: pointer;
+        list-style: none;
+        font: 700 0.76rem/1.2 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .mobile-navigation > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .mobile-navigation > summary::marker {
+        content: "";
+      }
+
+      .mobile-navigation > summary:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 4px;
+        border-radius: 0.2rem;
+      }
+
+      .mobile-navigation > .mobile-nav {
+        display: none;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-end;
         gap: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .mobile-navigation[open] > .mobile-nav {
+        display: flex;
+      }
+
+      .mobile-navigation > .mobile-nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
       }
 
       .hero {
@@ -806,91 +891,12 @@
         width: min(100% - 1.5rem, 72rem);
       }
 
-      .site-header {
-        flex-wrap: wrap;
-        row-gap: 0;
-      }
-
-      .nav-toggle {
-        position: absolute;
-        display: block;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        padding: 0;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        border: 0;
-        white-space: nowrap;
-      }
-
-      .nav-toggle-label {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.65rem;
-        min-height: 2.75rem;
-        margin-left: auto;
-        padding: 0.75rem 0;
-        color: var(--muted);
-        cursor: pointer;
-        font: 650 0.72rem/1.2 var(--mono);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .nav-toggle:focus-visible + .nav-toggle-label {
-        outline: 3px solid var(--accent);
-        outline-offset: 4px;
-        border-radius: 0.2rem;
-      }
-
-      .menu-icon {
-        position: relative;
-        display: block;
-        width: 1.15rem;
-        height: 1px;
-        background: currentColor;
-      }
-
-      .menu-icon::before,
-      .menu-icon::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background: currentColor;
-      }
-
-      .menu-icon::before {
-        top: -0.32rem;
-      }
-
-      .menu-icon::after {
-        top: 0.32rem;
-      }
-
-      .site-nav {
-        display: none;
-        flex-basis: 100%;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        padding-bottom: 1rem;
-      }
-
-      .site-nav a {
-        display: inline-flex;
-        align-items: center;
-        min-height: 2.75rem;
-      }
-
-      .nav-toggle:checked ~ .site-nav {
-        display: flex;
-      }
-
       .hero {
         padding-top: 1.75rem;
+      }
+
+      .hero-layout {
+        gap: 1.5rem;
       }
 
       .hero::before {
@@ -898,11 +904,15 @@
       }
 
       .logo-lockup {
-        margin-bottom: 3rem;
+        margin-bottom: 2.25rem;
       }
 
       h1 {
-        font-size: clamp(3rem, 16vw, 4.5rem);
+        font-size: clamp(2.75rem, 12vw, 3.25rem);
+      }
+
+      .hero-copy {
+        margin-bottom: 1.5rem;
       }
 
       .actions {
@@ -963,15 +973,20 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="shell site-header">
-    <input class="nav-toggle" type="checkbox" id="nav-toggle" aria-controls="primary-navigation" autocomplete="off">
-    <label class="nav-toggle-label" for="nav-toggle">
-      <span>Menu</span>
-      <span class="menu-icon" aria-hidden="true"></span>
-    </label>
-    <nav class="site-nav" id="primary-navigation" aria-label="Primary">
+    <nav class="site-nav desktop-nav" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
     </nav>
+    <details class="mobile-navigation">
+      <summary>
+        <span class="menu-icon" aria-hidden="true"></span>
+        <span>Menu</span>
+      </summary>
+      <nav class="site-nav mobile-nav" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </details>
   </header>
 
   <main id="main-content">
@@ -981,8 +996,8 @@
       </div>
       <div class="hero-layout">
         <div>
-          <p class="eyebrow">Interactive Exhibit Service · Washington</p>
-          <h1 id="hero-heading">The original shop is gone. Saturday still happens.</h1>
+          <p class="eyebrow">The original shop is gone. Saturday still happens.</p>
+          <h1 id="hero-heading">Service for existing learning-center stations in Washington.</h1>
         </div>
         <div>
           <p class="hero-copy">An exhibit is a learning-center station kids use, built into a cabinet with buttons and a screen. When the original shop is gone and that station goes dark, we take that station over. You keep the exhibit. We do not rebuild the gallery.</p>
