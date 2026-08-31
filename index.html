@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cardell Exhibit Service | Existing Interactive Exhibit Service</title>
-  <meta name="description" content="On-site surveys, service calls, conversions, and scheduled care for existing interactive exhibits in Washington.">
+  <title>Washington Interactive Station Service | Cardell Exhibit Service</title>
+  <meta name="description" content="Survey, repair, conversion, and scheduled care for existing learning-center interactive stations built into cabinets in South Puget Sound, Washington.">
   <link rel="canonical" href="https://cardellexhibits.com/">
-  <meta property="og:title" content="Cardell Exhibit Service">
-  <meta property="og:description" content="On-site surveys, service calls, conversions, and scheduled care for existing interactive exhibits in Washington.">
+  <meta property="og:title" content="Washington Interactive Station Service | Cardell Exhibit Service">
+  <meta property="og:description" content="Survey, repair, conversion, and scheduled care for existing learning-center interactive stations built into cabinets in South Puget Sound, Washington.">
   <meta property="og:url" content="https://cardellexhibits.com/">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#1b3128">
@@ -125,6 +125,11 @@
     .site-nav a:hover {
       color: var(--ink);
       text-decoration-color: currentColor;
+    }
+
+    .nav-toggle,
+    .nav-toggle-label {
+      display: none;
     }
 
     .hero {
@@ -573,6 +578,12 @@
       color: var(--ink);
     }
 
+    .scope-copy {
+      max-width: 52rem;
+      margin: 0 0 1rem;
+      color: var(--muted);
+    }
+
     .contact-section {
       padding: clamp(1rem, 4vw, 3rem) 0 clamp(4rem, 9vw, 7rem);
     }
@@ -795,6 +806,89 @@
         width: min(100% - 1.5rem, 72rem);
       }
 
+      .site-header {
+        flex-wrap: wrap;
+        row-gap: 0;
+      }
+
+      .nav-toggle {
+        position: absolute;
+        display: block;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        border: 0;
+        white-space: nowrap;
+      }
+
+      .nav-toggle-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        min-height: 2.75rem;
+        margin-left: auto;
+        padding: 0.75rem 0;
+        color: var(--muted);
+        cursor: pointer;
+        font: 650 0.72rem/1.2 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav-toggle:focus-visible + .nav-toggle-label {
+        outline: 3px solid var(--accent);
+        outline-offset: 4px;
+        border-radius: 0.2rem;
+      }
+
+      .menu-icon {
+        position: relative;
+        display: block;
+        width: 1.15rem;
+        height: 1px;
+        background: currentColor;
+      }
+
+      .menu-icon::before,
+      .menu-icon::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: currentColor;
+      }
+
+      .menu-icon::before {
+        top: -0.32rem;
+      }
+
+      .menu-icon::after {
+        top: 0.32rem;
+      }
+
+      .site-nav {
+        display: none;
+        flex-basis: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        padding-bottom: 1rem;
+      }
+
+      .site-nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+      }
+
+      .nav-toggle:checked ~ .site-nav {
+        display: flex;
+      }
+
       .hero {
         padding-top: 1.75rem;
       }
@@ -869,7 +963,12 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="shell site-header">
-    <nav class="site-nav" aria-label="Primary">
+    <input class="nav-toggle" type="checkbox" id="nav-toggle" aria-controls="primary-navigation" autocomplete="off">
+    <label class="nav-toggle-label" for="nav-toggle">
+      <span>Menu</span>
+      <span class="menu-icon" aria-hidden="true"></span>
+    </label>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -984,8 +1083,9 @@
         </ul>
       </section>
 
-      <section class="principles not-offered" aria-labelledby="not-offered-heading">
-        <h3 class="principles-label" id="not-offered-heading">Not offered</h3>
+      <section class="principles not-offered" aria-labelledby="scope-heading">
+        <h3 class="principles-label" id="scope-heading">We stay in the cabinet</h3>
+        <p class="scope-copy">We service the station already in the cabinet. If you need a new gallery, a new video, or a TV hung, that work belongs with a different shop.</p>
         <ul class="not-offered-list" role="list">
           <li>Gallery remodels.</li>
           <li>New exhibits.</li>
