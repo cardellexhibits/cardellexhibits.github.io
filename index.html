@@ -14,6 +14,66 @@
   <meta property="og:image:alt" content="Cardell Exhibit Service">
   <meta name="theme-color" content="#1b3128">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://cardellexhibits.com/#business",
+      "name": "Cardell Exhibit Service",
+      "url": "https://cardellexhibits.com/",
+      "logo": "https://cardellexhibits.com/cardell-logo.jpg",
+      "image": "https://cardellexhibits.com/cardell-logo.jpg",
+      "description": "Survey, repair, conversion, and scheduled care for learning-center interactive stations already on the floor in South Puget Sound, Washington.",
+      "email": "nick@cardellexhibits.com",
+      "areaServed": {
+        "@type": "Place",
+        "name": "South Puget Sound, Washington"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "WA",
+        "addressCountry": "US"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Survey",
+              "description": "A half-day on site playing each interactive, then a written punch list within five days."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Break/fix",
+              "description": "Diagnosis and repair of the station already on the floor so the same show runs again."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Conversion",
+              "description": "Replacement of a dead player or controller with one that plays the same media, uses the same buttons, and sits in the same cabinet."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Care",
+              "description": "A one-year agreement with scheduled checks for the stations you name."
+            }
+          }
+        ]
+      }
+    }
+  </script>
   <style>
     :root {
       --paper: #1b3128;
@@ -99,11 +159,25 @@
     .site-header {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: space-between;
       gap: 2rem;
       min-height: 5.75rem;
       border-bottom: 1px solid var(--line);
       box-shadow: 0 3px 0 rgba(239, 226, 197, 0.025);
+    }
+
+    .brand {
+      display: block;
+      flex: 0 0 auto;
+      height: 4rem;
+      line-height: 0;
+    }
+
+    .brand img {
+      display: block;
+      width: auto;
+      height: 100%;
+      mix-blend-mode: lighten;
     }
 
     .site-nav {
@@ -162,7 +236,7 @@
 
     .hero {
       isolation: isolate;
-      padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(5rem, 10vw, 8rem);
+      padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(5rem, 10vw, 8rem);
     }
 
     .hero::before {
@@ -180,46 +254,6 @@
         repeating-conic-gradient(from 0deg, rgba(217, 189, 120, 0.08) 0 0.45deg, transparent 0.45deg 15deg);
       opacity: 0.45;
       pointer-events: none;
-    }
-
-    .logo-lockup {
-      position: relative;
-      max-width: 44rem;
-      margin: 0 auto clamp(3.5rem, 7vw, 5.75rem);
-      padding: 0.55rem;
-      overflow: visible;
-      border: 1px solid var(--line);
-      animation: logo-reveal 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    .logo-lockup::before,
-    .logo-lockup::after {
-      content: "";
-      position: absolute;
-      z-index: 1;
-      width: 2.25rem;
-      height: 2.25rem;
-      pointer-events: none;
-    }
-
-    .logo-lockup::before {
-      top: -1px;
-      left: -1px;
-      border-top: 2px solid var(--accent);
-      border-left: 2px solid var(--accent);
-    }
-
-    .logo-lockup::after {
-      right: -1px;
-      bottom: -1px;
-      border-right: 2px solid var(--accent);
-      border-bottom: 2px solid var(--accent);
-    }
-
-    .logo-lockup img {
-      display: block;
-      width: 100%;
-      height: auto;
     }
 
     .hero-layout {
@@ -714,17 +748,6 @@
       color: var(--ink);
     }
 
-    @keyframes logo-reveal {
-      from {
-        opacity: 0;
-        clip-path: inset(0 50% 0 50%);
-      }
-      to {
-        opacity: 1;
-        clip-path: inset(0 0 0 0);
-      }
-    }
-
     @keyframes rise-in {
       from {
         opacity: 0;
@@ -749,11 +772,16 @@
       }
     }
 
-    @media (max-width: 48rem) {
+    @media (max-width: 64rem) {
       .site-header {
+        align-items: flex-start;
+        gap: 1rem;
         min-height: 5rem;
-        flex-wrap: wrap;
-        gap: 0;
+        padding: 0.75rem 0;
+      }
+
+      .brand {
+        height: 3.5rem;
       }
 
       .desktop-nav {
@@ -762,7 +790,8 @@
 
       .mobile-navigation {
         display: block;
-        width: 100%;
+        flex: 1 1 auto;
+        min-width: 0;
       }
 
       .mobile-navigation > summary {
@@ -771,9 +800,9 @@
         justify-content: flex-end;
         gap: 0.65rem;
         width: fit-content;
-        min-height: 2.75rem;
+        min-height: 3.5rem;
         margin-left: auto;
-        padding: 0.75rem 0;
+        padding: 0 0 0 0.75rem;
         color: var(--ink);
         cursor: pointer;
         list-style: none;
@@ -802,7 +831,7 @@
         flex-wrap: wrap;
         justify-content: flex-end;
         gap: 1rem;
-        padding-bottom: 1rem;
+        padding: 0.25rem 0 0.75rem;
       }
 
       .mobile-navigation[open] > .mobile-nav {
@@ -814,9 +843,11 @@
         align-items: center;
         min-height: 2.75rem;
       }
+    }
 
+    @media (max-width: 48rem) {
       .hero {
-        padding-top: 2.5rem;
+        padding-top: 3rem;
       }
 
       .hero-layout {
@@ -891,8 +922,16 @@
         width: min(100% - 1.5rem, 72rem);
       }
 
+      .brand {
+        height: 3rem;
+      }
+
+      .mobile-navigation > summary {
+        min-height: 3rem;
+      }
+
       .hero {
-        padding-top: 1.75rem;
+        padding-top: 2.25rem;
       }
 
       .hero-layout {
@@ -901,10 +940,6 @@
 
       .hero::before {
         right: -14rem;
-      }
-
-      .logo-lockup {
-        margin-bottom: 2.25rem;
       }
 
       h1 {
@@ -957,7 +992,6 @@
         translate: none;
       }
 
-      .logo-lockup,
       .hero-layout > *,
       .section-heading,
       .service-card,
@@ -973,6 +1007,9 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="shell site-header">
+    <a class="brand" href="#top">
+      <img src="cardell-logo.jpg" alt="Cardell Exhibit Service" width="1360" height="455" decoding="async">
+    </a>
     <nav class="site-nav desktop-nav" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
@@ -991,9 +1028,6 @@
 
   <main id="main-content">
     <section class="shell hero" id="top" aria-labelledby="hero-heading">
-      <div class="logo-lockup">
-        <img src="cardell-logo.jpg" alt="Cardell Exhibit Service" width="1360" height="455">
-      </div>
       <div class="hero-layout">
         <div>
           <p class="eyebrow">The original shop is gone. Saturday still happens.</p>
