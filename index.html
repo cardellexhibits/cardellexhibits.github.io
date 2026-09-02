@@ -18,75 +18,38 @@
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "@id": "https://cardellexhibits.com/#business",
       "name": "Cardell Exhibit Service",
       "url": "https://cardellexhibits.com/",
-      "logo": "https://cardellexhibits.com/cardell-logo.jpg",
-      "image": "https://cardellexhibits.com/cardell-logo.jpg",
-      "description": "Survey, repair, conversion, and scheduled care for learning-center interactive stations already on the floor in South Puget Sound, Washington.",
       "email": "nick@cardellexhibits.com",
-      "areaServed": {
-        "@type": "Place",
-        "name": "South Puget Sound, Washington"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "addressRegion": "WA",
-        "addressCountry": "US"
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Survey",
-              "description": "A half-day on site playing each interactive, then a written punch list within five days."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Break/fix",
-              "description": "Diagnosis and repair of the station already on the floor so the same show runs again."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Conversion",
-              "description": "Replacement of a dead player or controller with one that plays the same media, uses the same buttons, and sits in the same cabinet."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Care",
-              "description": "A one-year agreement with scheduled checks for the stations you name."
-            }
-          }
-        ]
-      }
+      "areaServed": "South Puget Sound, Washington"
     }
   </script>
   <style>
+    /* The Workbench: graph paper, brass plates, hanging tags, a punch list that gets ticked. */
+
     :root {
       --paper: #1b3128;
       --surface: #10241c;
       --ink: #efe2c5;
       --muted: #c7bea9;
       --accent: #d9bd78;
+      --contact-ink: #14291f;
       --line: rgba(239, 226, 197, 0.18);
       --line-strong: rgba(239, 226, 197, 0.42);
-      --contact-ink: #14291f;
-      --shadow: 0 18px 48px rgba(4, 15, 10, 0.22);
+      --grid: rgba(239, 226, 197, 0.035);
+      --grid-major: rgba(239, 226, 197, 0.09);
+      --bench-shadow: 4px 4px 0 rgba(16, 36, 28, 0.9);
+      --chalk-shadow: 4px 4px 0 rgba(239, 226, 197, 0.14);
+      --ticket: linear-gradient(rgba(239, 226, 197, 0.04), rgba(239, 226, 197, 0.04)), var(--surface);
+      --bevel: linear-gradient(180deg, rgba(239, 226, 197, 0.3), transparent 45%, rgba(16, 36, 28, 0.18));
+      --plate-inset: inset 0 1px 0 rgba(239, 226, 197, 0.6), inset 0 -1px 0 rgba(16, 36, 28, 0.45);
+      --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L20 6' fill='none' stroke='%23d9bd78' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       --display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      --body: "Aptos", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
       --mono: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --u: 0.75rem; /* bench unit; one grid square is 2u */
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-snap: cubic-bezier(0.2, 0.9, 0.3, 1.2);
     }
 
     * {
@@ -100,24 +63,18 @@
     body {
       margin: 0;
       min-width: 18rem;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 50% -10%, rgba(217, 189, 120, 0.07), transparent 42rem),
-        repeating-linear-gradient(0deg, rgba(239, 226, 197, 0.012) 0 1px, transparent 1px 4px),
-        var(--paper);
       color: var(--ink);
-      font: 400 1rem/1.6 "Aptos", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--grid-major) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 7.5rem 7.5rem, 7.5rem 7.5rem, 1.5rem 1.5rem, 1.5rem 1.5rem;
+      background-position: -1px -1px;
+      font: 400 1rem/1.6 var(--body);
       overflow-x: hidden;
       text-rendering: optimizeLegibility;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0.65rem;
-      z-index: 100;
-      border: 1px solid var(--line);
-      pointer-events: none;
     }
 
     main {
@@ -128,10 +85,18 @@
       color: inherit;
     }
 
-    a:focus-visible {
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    a:focus-visible,
+    summary:focus-visible {
       outline: 3px solid var(--accent);
       outline-offset: 4px;
-      border-radius: 0.2rem;
+      border-radius: 2px;
     }
 
     .skip-link {
@@ -139,9 +104,11 @@
       top: 0.75rem;
       left: 0.75rem;
       z-index: 120;
-      padding: 0.65rem 0.9rem;
+      padding: 0.7rem 1rem;
       background: var(--ink);
       color: var(--contact-ink);
+      border-radius: 2px;
+      font: 750 0.95rem/1 var(--body);
       text-decoration: none;
       transform: translateY(-150%);
     }
@@ -156,20 +123,168 @@
       margin-inline: auto;
     }
 
+    /* Full-bleed surface bands carry the same grid, quieter */
+
+    .band {
+      background-color: var(--surface);
+      background-image:
+        linear-gradient(rgba(239, 226, 197, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(239, 226, 197, 0.03) 1px, transparent 1px);
+      background-size: 1.5rem 1.5rem;
+      background-position: -1px -1px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* The bench rule: a ruler between the hero and How it works */
+
+    .rule {
+      height: 1rem;
+      opacity: 0.6;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='16' viewBox='0 0 48 16'%3E%3Cpath d='M0 15.5h48M0.5 4v12M12 10v6M24 7v9M36 10v6' stroke='%23d9bd78' stroke-width='1' fill='none'/%3E%3C/svg%3E") left bottom / 3rem 1rem repeat-x;
+    }
+
+    .rule-foot {
+      margin-bottom: 1.75rem;
+      transform: scaleY(-1);
+    }
+
+    /* Brass plates: the label voice. Screw heads only on the eyebrow and the section kickers. */
+
+    .plate {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      margin: 0;
+      padding: 0.44rem 0.85rem 0.4rem;
+      background: var(--bevel), var(--accent);
+      color: var(--contact-ink);
+      border-radius: 2px;
+      box-shadow: var(--plate-inset), 2px 2px 0 rgba(16, 36, 28, 0.9);
+      font: 750 0.7rem/1.3 var(--mono);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .plate.screwed {
+      padding-inline: 1.5rem;
+    }
+
+    .plate.screwed::before,
+    .plate.screwed::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 0.42rem;
+      height: 0.42rem;
+      margin-top: -0.21rem;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, rgba(239, 226, 197, 0.55), var(--contact-ink) 65%);
+      box-shadow: inset 0 0 0 1px rgba(16, 36, 28, 0.6);
+    }
+
+    .plate.screwed::before {
+      left: 0.5rem;
+    }
+
+    .plate.screwed::after {
+      right: 0.5rem;
+    }
+
+    .plate-tail {
+      display: contents;
+    }
+
+    /* Inside the copy, labels go flat so brass keeps meaning "section" */
+
+    .start .plate,
+    .you-get .plate {
+      padding: 0;
+      background: none;
+      color: var(--accent);
+      box-shadow: none;
+      letter-spacing: 0.16em;
+    }
+
+    /* Plates that are grid items shrink to their label instead of stretching across the column */
+    .section-heading > .plate,
+    .cabinet-line > .plate {
+      justify-self: start;
+    }
+
+    /* Buttons: the plate body, but the label is the sans in sentence case so it reads as a button, not an engraving */
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.25rem;
+      padding: 0.75rem 1.4rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--ink);
+      font: 750 1rem/1.2 var(--body);
+      text-align: center;
+      text-decoration: none;
+      transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+    }
+
+    .button-primary {
+      background: var(--bevel), var(--accent);
+      border-color: rgba(16, 36, 28, 0.6);
+      color: var(--contact-ink);
+      box-shadow: var(--plate-inset), 3px 3px 0 rgba(16, 36, 28, 0.9);
+    }
+
+    .button-primary:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: var(--plate-inset), 4px 4px 0 rgba(16, 36, 28, 0.9);
+    }
+
+    .button-primary:active {
+      transform: translate(2px, 2px);
+      box-shadow: var(--plate-inset), 1px 1px 0 rgba(16, 36, 28, 0.9);
+    }
+
+    .button-secondary {
+      background: rgba(16, 36, 28, 0.35);
+    }
+
+    .button-secondary:hover {
+      transform: translate(-1px, -1px);
+      border-color: var(--ink);
+      box-shadow: 3px 3px 0 rgba(16, 36, 28, 0.9);
+    }
+
+    .button-secondary:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 rgba(16, 36, 28, 0.9);
+    }
+
+    /* Header: flat paper, logo on the left, the Menu plate on the right at every width */
+
     .site-header {
+      position: relative;
+      z-index: 60;
+      background: var(--paper);
+    }
+
+    .header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 2rem;
-      min-height: 5.75rem;
-      border-bottom: 1px solid var(--line);
-      box-shadow: 0 3px 0 rgba(239, 226, 197, 0.025);
+      gap: 1rem;
+      min-height: 6rem;
+      border-bottom: 1px solid var(--line-strong);
+      box-shadow: 0 1px 0 rgba(16, 36, 28, 0.9);
     }
 
     .brand {
       display: block;
       flex: 0 0 auto;
-      height: 4rem;
+      height: 4.5rem;
+      padding: 0.25rem 0;
       line-height: 0;
     }
 
@@ -180,128 +295,278 @@
       mix-blend-mode: lighten;
     }
 
-    .site-nav {
+    .header-tools {
       display: flex;
+      flex: 0 0 auto;
       align-items: center;
-      gap: 1.7rem;
-      font: 650 0.72rem/1.2 var(--mono);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 650;
+      gap: 0.75rem;
     }
 
-    .site-nav a {
-      color: var(--muted);
-      text-decoration-color: transparent;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 0.35rem;
-      transition: color 200ms ease, text-decoration-color 200ms ease;
-    }
-
-    .site-nav a:hover {
-      color: var(--ink);
-      text-decoration-color: currentColor;
-    }
-
-    .mobile-navigation {
+    .header-cta {
       display: none;
+      min-height: 3rem;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.92rem;
+    }
+
+    .menu {
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .menu-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      min-height: 3rem;
+      min-width: 3rem;
+      padding: 0 1.1rem 0 0.95rem;
+      background: var(--bevel), var(--accent);
+      color: var(--contact-ink);
+      border: 1px solid rgba(16, 36, 28, 0.6);
+      border-radius: 2px;
+      box-shadow: var(--plate-inset), 3px 3px 0 rgba(16, 36, 28, 0.9);
+      font: 750 0.78rem/1 var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+      transition: transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out);
+    }
+
+    .menu-button::-webkit-details-marker {
+      display: none;
+    }
+
+    .menu-button::marker {
+      content: "";
+    }
+
+    .menu-button:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: var(--plate-inset), 4px 4px 0 rgba(16, 36, 28, 0.9);
+    }
+
+    .menu[open] > .menu-button {
+      transform: translate(2px, 2px);
+      box-shadow: var(--plate-inset), 1px 1px 0 rgba(16, 36, 28, 0.9);
     }
 
     .menu-icon {
       position: relative;
-      display: block;
-      width: 1.15rem;
-      height: 1px;
-      color: var(--accent);
-      background: currentColor;
+      flex: 0 0 auto;
+      width: 1.2rem;
+      height: 0.85rem;
     }
 
-    .menu-icon::before,
-    .menu-icon::after {
-      content: "";
+    .menu-icon i {
       position: absolute;
       left: 0;
       width: 100%;
-      height: 1px;
-      background: currentColor;
+      height: 2px;
+      border-radius: 1px;
+      background: var(--contact-ink);
+      transition: transform 220ms var(--ease-out), opacity 140ms ease;
     }
 
-    .menu-icon::before {
-      top: -0.32rem;
+    .menu-icon i:nth-child(1) {
+      top: 0;
     }
 
-    .menu-icon::after {
-      top: 0.32rem;
+    .menu-icon i:nth-child(2) {
+      top: calc(50% - 1px);
     }
 
-    .hero {
-      isolation: isolate;
-      padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(5rem, 10vw, 8rem);
+    .menu-icon i:nth-child(3) {
+      bottom: 0;
     }
 
-    .hero::before {
+    .menu[open] .menu-icon i:nth-child(1) {
+      transform: translateY(calc(0.425rem - 1px)) rotate(45deg);
+    }
+
+    .menu[open] .menu-icon i:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu[open] .menu-icon i:nth-child(3) {
+      transform: translateY(calc(-0.425rem + 1px)) rotate(-45deg);
+    }
+
+    .menu-panel {
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      right: 0;
+      z-index: 70;
+      width: min(17.5rem, calc(100vw - 1.5rem));
+      padding: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      box-shadow: var(--bench-shadow);
+      animation: drawer-out 220ms var(--ease-out) both;
+    }
+
+    .menu-panel::before {
       content: "";
       position: absolute;
-      right: clamp(-14rem, -12vw, -6rem);
-      bottom: clamp(1rem, 4vw, 3.5rem);
-      z-index: -1;
-      width: clamp(20rem, 48vw, 38rem);
-      aspect-ratio: 1;
-      border: 1px solid rgba(217, 189, 120, 0.1);
-      border-radius: 50%;
-      background:
-        radial-gradient(circle, transparent 0 27%, rgba(217, 189, 120, 0.1) 27.2% 27.5%, transparent 27.8% 46%, rgba(217, 189, 120, 0.08) 46.2% 46.5%, transparent 46.8% 67%, rgba(217, 189, 120, 0.07) 67.2% 67.5%, transparent 67.8%),
-        repeating-conic-gradient(from 0deg, rgba(217, 189, 120, 0.08) 0 0.45deg, transparent 0.45deg 15deg);
-      opacity: 0.45;
-      pointer-events: none;
+      top: 0;
+      left: 0.5rem;
+      right: 0.5rem;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--accent) 0 0.5rem, transparent 0.5rem 0.75rem);
+    }
+
+    .menu-panel a {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      min-height: 3rem;
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px dashed var(--line);
+      color: var(--ink);
+      font: 700 0.8rem/1.2 var(--mono);
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+
+    .menu-panel a b {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .menu-panel a:hover {
+      background: rgba(239, 226, 197, 0.06);
+      color: var(--accent);
+    }
+
+    .menu-panel a.menu-cta {
+      justify-content: center;
+      min-height: 3rem;
+      margin-top: 0.5rem;
+      border: 0;
+      background: var(--ink);
+      color: var(--contact-ink);
+      font: 750 0.95rem/1.2 var(--body);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .menu-panel a.menu-cta:hover {
+      background: var(--accent);
+    }
+
+    .menu-panel a.menu-cta:focus-visible {
+      outline-color: var(--ink);
+    }
+
+    /* Hero: the offer first, as a numbered punch list; the drawing waits to the right or below */
+
+    .hero {
+      padding: clamp(2rem, 4vw, 3.75rem) 0 clamp(4rem, 8vw, 6.5rem);
+      scroll-margin-top: 1rem;
     }
 
     .hero-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
-      gap: clamp(2.5rem, 7vw, 6rem);
-      align-items: end;
+      grid-template-columns: 1fr;
+      gap: 2.75rem;
+      align-items: center;
     }
 
-    .hero-layout > * {
-      animation: rise-in 660ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    .hero-layout > *:last-child {
-      animation-delay: 110ms;
-    }
-
-    .eyebrow {
-      margin: 0 0 1.3rem;
-      color: var(--accent);
-      font: 750 0.7rem/1.4 var(--mono);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin-top: 0;
+    .hero-copy > .plate {
+      margin-bottom: 1.25rem;
     }
 
     h1 {
-      max-width: 13ch;
-      margin-bottom: 0;
+      max-width: 22ch;
+      margin: 0 0 1.4rem;
       font-family: var(--display);
-      font-size: clamp(3rem, 7.5vw, 6.1rem);
-      font-weight: 520;
-      letter-spacing: -0.035em;
-      line-height: 0.94;
+      font-size: clamp(2.35rem, 4.4vw + 0.5rem, 4.25rem);
+      font-weight: 500;
+      letter-spacing: -0.028em;
+      line-height: 0.98;
     }
 
-    .hero-copy {
-      max-width: 34rem;
-      margin-bottom: 2rem;
+    h1 em {
+      position: relative;
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    h1 em::after {
+      content: "";
+      position: absolute;
+      right: 0.04em;
+      bottom: -0.03em;
+      left: 0.02em;
+      height: 0.14em;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7c22-5 44 4 66-1s34-3 50 2' fill='none' stroke='%23d9bd78' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+      opacity: 0.8;
+      pointer-events: none;
+      animation: draw-x 700ms var(--ease-out) 900ms both;
+    }
+
+    .nb {
+      white-space: nowrap;
+    }
+
+    .rail {
+      display: grid;
+      gap: 1.1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rail > li {
+      position: relative;
+      display: grid;
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .rail > li:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      top: 1.65rem;
+      bottom: -0.6rem;
+      left: 0.42rem;
+      border-left: 1px dashed var(--line);
+    }
+
+    .rail-num {
+      padding-top: 0.5rem;
+      color: var(--accent);
+      font: 800 0.72rem/1 var(--mono);
+      letter-spacing: 0.1em;
+    }
+
+    .rail p {
+      margin: 0;
+    }
+
+    .lede {
+      max-width: 36rem;
       color: var(--muted);
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      line-height: 1.6;
+      font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+      line-height: 1.55;
+    }
+
+    .lede strong {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .start {
+      padding-top: 0.2rem;
+    }
+
+    .start .plate {
+      margin-bottom: 0.9rem;
     }
 
     .actions {
@@ -310,393 +575,616 @@
       gap: 0.8rem;
     }
 
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 3.25rem;
-      padding: 0.7rem 1.15rem;
+    .start-note {
+      max-width: 34rem;
+      margin: 1.1rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-copy > .plate,
+    .hero-copy > h1,
+    .rail > li {
+      animation: rise-in 560ms var(--ease-out) both;
+    }
+
+    .hero-copy > h1 {
+      animation-delay: 80ms;
+    }
+
+    .rail > li:nth-child(1) {
+      animation-delay: 160ms;
+    }
+
+    .rail > li:nth-child(2) {
+      animation-delay: 240ms;
+    }
+
+    .rail > li:nth-child(3) {
+      animation-delay: 320ms;
+    }
+
+    /* The drawing sheet: the station, front view, on its own tighter graph paper */
+
+    .sheet {
+      width: min(100%, 24rem);
+      margin: 0 auto;
+      color: var(--muted);
+      animation: rise-in 700ms var(--ease-out) 200ms both;
+    }
+
+    .sheet-board {
+      border-radius: 2px;
+      box-shadow: var(--bench-shadow);
+    }
+
+    .drawing {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 6 / 5;
+      padding: 1rem;
+      background-color: var(--surface);
+      background-image:
+        linear-gradient(rgba(239, 226, 197, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(239, 226, 197, 0.05) 1px, transparent 1px);
+      background-size: 1.5rem 1.5rem;
       border: 1px solid var(--line-strong);
-      border-radius: 0;
-      font: 720 0.72rem/1 var(--mono);
-      letter-spacing: 0.07em;
-      text-decoration: none;
+      border-bottom: 0;
+      border-radius: 2px 2px 0 0;
+    }
+
+    .title-block {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 0;
+      padding: 0.55rem 0.9rem;
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 0 0 2px 2px;
+      color: var(--accent);
+      font: 700 0.68rem/1.4 var(--mono);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      transition: background-color 240ms ease, border-color 240ms ease, box-shadow 240ms ease, color 240ms ease, transform 240ms ease;
     }
 
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 4px 4px 0 rgba(217, 189, 120, 0.18);
+    .sheet figcaption {
+      margin: 1.25rem 0 0;
+      font: 650 0.68rem/1.5 var(--mono);
+      letter-spacing: 0.1em;
+      text-align: center;
+      text-transform: uppercase;
     }
 
-    .button-primary {
-      background: var(--ink);
-      border-color: var(--ink);
-      color: var(--contact-ink);
+    /* Pencil pass: every solid line carries pathLength=1, so each draws at the same pace */
+
+    .draw path,
+    .draw circle {
+      stroke-dasharray: 1;
+      animation: draw 1400ms var(--ease-out) both;
     }
 
-    .button-primary:hover {
-      background: var(--accent);
-      border-color: var(--accent);
+    .draw .plinth {
+      animation-delay: 150ms;
     }
 
-    .button-secondary:hover {
-      border-color: var(--ink);
-      color: var(--ink);
+    .draw .bezel {
+      animation-delay: 300ms;
     }
+
+    .draw .screen {
+      animation-delay: 450ms;
+    }
+
+    .draw .btn {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: draw 1400ms var(--ease-out) 700ms both, press 6s ease-in-out 3s infinite;
+    }
+
+    .draw .btn + .btn {
+      animation-delay: 780ms, 5s;
+    }
+
+    .draw .btn + .btn + .btn {
+      animation-delay: 860ms, 7s;
+    }
+
+    .draw .dash {
+      stroke-dasharray: 3 5;
+      animation: fade 600ms ease 900ms both;
+    }
+
+    .draw .hidden {
+      opacity: 0.5;
+      animation-name: fade-dim;
+    }
+
+    .callout {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pop 500ms var(--ease-snap) 1500ms both;
+    }
+
+    .callout:nth-child(2) {
+      animation-delay: 1620ms;
+    }
+
+    .callout:nth-child(3) {
+      animation-delay: 1740ms;
+    }
+
+    .callout:nth-child(4) {
+      animation-delay: 1860ms;
+    }
+
+    .screen-on {
+      animation: fade 600ms ease 1900ms both;
+    }
+
+    .screen-on rect {
+      animation: blip 6s ease-in-out 3s infinite;
+    }
+
+    /* Sections */
 
     .section {
-      padding: clamp(4.5rem, 9vw, 7.5rem) 0;
-    }
-
-    .meander {
-      height: 0.8rem;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'%3E%3Cpath d='M0 6h8V1h8v10h8V6h8' fill='none' stroke='%23d9bd78' stroke-width='1'/%3E%3C/svg%3E");
-      background-position: center;
-      background-repeat: repeat-x;
-      background-size: 2rem 0.75rem;
-      opacity: 0.5;
+      padding: clamp(4rem, 8vw, 6.5rem) 0;
+      scroll-margin-top: 1rem;
     }
 
     .section-heading {
       display: grid;
-      grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+      grid-template-columns: minmax(9rem, 0.36fr) minmax(0, 1fr);
       gap: 2rem;
       align-items: start;
-      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem);
     }
 
-    .section-kicker {
-      margin: 0;
-      color: var(--accent);
-      font: 750 0.7rem/1.4 var(--mono);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+    .section-heading .plate {
+      margin-top: 0.4rem;
     }
 
     h2 {
-      max-width: 16ch;
-      margin-bottom: 0;
+      max-width: 20ch;
+      margin: 0 0 0.75rem;
       font-family: var(--display);
-      text-transform: uppercase;
-      font-size: clamp(2.2rem, 5vw, 4.25rem);
-      font-weight: 520;
-      letter-spacing: -0.025em;
-      line-height: 1.02;
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
     }
 
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .service-card {
-      position: relative;
-      isolation: isolate;
-      display: flex;
-      flex-direction: column;
-      min-height: 19rem;
-      padding: clamp(1.5rem, 4vw, 2.3rem);
-      overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 0;
-      box-shadow: 0 0 0 rgba(4, 15, 10, 0);
-      transition: border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
-    }
-
-    .service-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .service-card::after {
-      content: "";
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      width: 1.15rem;
-      height: 1.15rem;
-      border-top: 1px solid var(--line-strong);
-      border-right: 1px solid var(--line-strong);
-      transition: border-color 180ms ease, transform 260ms ease;
-    }
-
-    .service-card:hover {
-      border-color: var(--accent);
-      box-shadow: var(--shadow);
-      transform: translateY(-3px);
-    }
-
-    .service-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .service-card:hover::after {
-      border-color: var(--accent);
-      transform: translate(-0.2rem, 0.2rem);
-    }
-
-    .card-number {
-      display: block;
-      margin-bottom: clamp(3.5rem, 7vw, 6rem);
-      color: var(--accent);
-      font: 800 0.68rem/1 var(--mono);
-      letter-spacing: 0.1em;
+    .section-lede {
+      max-width: 38rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
     }
 
     h3 {
-      margin-bottom: 0.75rem;
+      margin: 0 0 0.6rem;
       font-family: var(--display);
-      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-size: clamp(1.35rem, 2.2vw, 1.7rem);
       font-weight: 560;
-      letter-spacing: 0.015em;
+      letter-spacing: -0.01em;
       line-height: 1.15;
-      text-transform: uppercase;
     }
 
-    .service-card p {
-      max-width: 36rem;
+    /* How it works: one job ticket, three columns, big serif numerals */
+
+    .ticket {
+      --step-pad: clamp(1.5rem, 3vw, 2.25rem);
+      --num: clamp(4rem, 3rem + 4.5vw, 6.75rem);
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background: var(--ticket);
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      box-shadow: var(--chalk-shadow);
+      view-timeline: --ticket block;
+    }
+
+    .step {
+      position: relative;
+      padding: var(--step-pad);
+    }
+
+    .step + .step {
+      border-left: 1px solid var(--line);
+    }
+
+    /* The dotted route: one wayfinding line threaded through the three numerals */
+
+    .step::before,
+    .step::after {
+      content: "";
+      position: absolute;
+      top: calc(var(--step-pad) + var(--num) * 0.425 - 1.5px);
+      height: 3px;
+      background: radial-gradient(circle, var(--accent) 1.1px, transparent 1.6px) 0 50% / 12px 3px repeat-x;
+      pointer-events: none;
+    }
+
+    .step::before {
+      left: -1px;
+      width: calc(var(--step-pad) + var(--num) * 0.6 + 1px);
+    }
+
+    .step::after {
+      right: 0;
+      left: calc(var(--step-pad) + var(--num) * 0.6);
+    }
+
+    .step:first-child::before,
+    .step:last-child::after {
+      content: none;
+    }
+
+    .step-num {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      margin: 0 0 0.9rem;
+      padding: 0 0.1em;
+      background: var(--ticket);
+      color: var(--accent);
+      font: 400 var(--num)/0.85 var(--display);
+      font-variant-numeric: lining-nums tabular-nums;
+      letter-spacing: -0.04em;
+    }
+
+    .step h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .step p {
       margin: 0;
       color: var(--muted);
       font-size: 0.96rem;
     }
 
-    .service-body {
+    /* Services: ticket stubs with a perforation, punched notches, and a hanging numbered tag */
+
+    .service-grid {
       display: grid;
-      flex: 1;
-      gap: 1rem;
-      align-content: start;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      align-items: stretch;
     }
 
-    .service-body .service-intro {
-      color: var(--ink);
-      font-size: 1rem;
-    }
-
-    .service-body strong {
-      color: var(--ink);
-      font-weight: 720;
-    }
-
-    .service-card .button {
-      align-self: flex-start;
-      margin-top: 2rem;
-    }
-
-    .process {
-      margin-top: clamp(4rem, 8vw, 6.5rem);
-      padding-top: clamp(2.5rem, 5vw, 4rem);
-      border-top: 1px solid var(--line);
-    }
-
-    .process-heading {
-      display: grid;
-      grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
-      gap: 2rem;
-      align-items: start;
-      margin-bottom: clamp(2rem, 4vw, 3rem);
-    }
-
-    .process-heading h3 {
-      max-width: 18ch;
-      margin: 0;
-      font-size: clamp(1.9rem, 4vw, 3.25rem);
-      letter-spacing: -0.01em;
-    }
-
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin: 0;
-      padding: 0;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      list-style: none;
-    }
-
-    .process-step {
-      min-height: 13rem;
-      padding: clamp(1.5rem, 3vw, 2rem);
-    }
-
-    .process-step + .process-step {
-      border-left: 1px solid var(--line);
-    }
-
-    .process-number {
-      display: block;
-      margin-bottom: clamp(2rem, 4vw, 3.25rem);
-      color: var(--accent);
-      font: 800 0.68rem/1 var(--mono);
-      letter-spacing: 0.1em;
-    }
-
-    .process-step h4 {
-      margin: 0 0 0.65rem;
-      font-family: var(--display);
-      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
-      font-weight: 560;
-      letter-spacing: 0.015em;
-      line-height: 1.15;
-      text-transform: uppercase;
-    }
-
-    .process-step p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .principles {
-      margin-top: 1rem;
-      padding: 1.35rem clamp(1.25rem, 3vw, 2rem);
-      background: rgba(16, 36, 28, 0.58);
-      border: 1px solid var(--line);
-    }
-
-    .principles-label {
-      margin: 0 0 1rem;
-      color: var(--accent);
-      font: 750 0.68rem/1.4 var(--mono);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .principles-list {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .principles-list li {
+    .stub-wrap {
       position: relative;
-      padding: 0.2rem clamp(1rem, 2.5vw, 1.75rem);
-      color: var(--ink);
-      font-weight: 650;
-      line-height: 1.45;
+      display: flex;
+      filter: drop-shadow(4px 4px 0 rgba(16, 36, 28, 0.9));
+      transition: transform 200ms var(--ease-out);
     }
 
-    .principles-list li:first-child {
-      padding-left: 1.25rem;
+    .stub-wrap:hover {
+      transform: translate(-2px, -2px);
     }
 
-    .principles-list li + li {
-      border-left: 1px solid var(--line);
+    .stub {
+      --perf: 1.15rem;
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.75rem 1.75rem 1.75rem calc(var(--perf) + 1.45rem);
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      view-timeline: --card block;
+      -webkit-mask:
+        radial-gradient(0.5rem at var(--perf) 0, transparent 98%, #10241c) top / 100% 51% no-repeat,
+        radial-gradient(0.5rem at var(--perf) 100%, transparent 98%, #10241c) bottom / 100% 51% no-repeat;
+      mask:
+        radial-gradient(0.5rem at var(--perf) 0, transparent 98%, #10241c) top / 100% 51% no-repeat,
+        radial-gradient(0.5rem at var(--perf) 100%, transparent 98%, #10241c) bottom / 100% 51% no-repeat;
     }
 
-    .principles-list li::before {
+    .stub::before {
       content: "";
       position: absolute;
-      top: 0.72rem;
-      left: 0;
-      width: 0.38rem;
-      height: 0.38rem;
-      border: 1px solid var(--accent);
-      transform: rotate(45deg);
+      top: 0.85rem;
+      bottom: 0.85rem;
+      left: var(--perf);
+      width: 2px;
+      margin-left: -1px;
+      background: repeating-linear-gradient(180deg, var(--line-strong) 0 0.35rem, transparent 0.35rem 0.7rem);
     }
 
-    .not-offered-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem 1.5rem;
+    .stub h3 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+    }
+
+    .service-intro {
+      max-width: 34rem;
+      margin: 0;
+      color: var(--ink);
+      font-size: 1.02rem;
+    }
+
+    .you-get {
+      padding-top: 1rem;
+      border-top: 1px dashed var(--line);
+    }
+
+    .you-get .plate {
+      margin-bottom: 0.8rem;
+    }
+
+    .stub .button {
+      align-self: flex-start;
+      margin-top: auto;
+    }
+
+    .stub .button-secondary:hover {
+      box-shadow: 3px 3px 0 rgba(239, 226, 197, 0.18);
+    }
+
+    .stub .button-secondary:active {
+      box-shadow: 1px 1px 0 rgba(239, 226, 197, 0.18);
+    }
+
+    .tag {
+      position: absolute;
+      top: -0.6rem;
+      right: 1.25rem;
+      z-index: 2;
+      display: inline-grid;
+      place-items: center;
+      min-width: 2.8rem;
+      height: 1.9rem;
+      padding: 0 0.65rem 0 1.15rem;
+      background: var(--accent);
+      color: var(--contact-ink);
+      font: 800 0.72rem/1 var(--mono);
+      letter-spacing: 0.1em;
+      clip-path: polygon(0.6rem 0, 100% 0, 100% 100%, 0.6rem 100%, 0 50%);
+      transform: rotate(-2deg);
+      transform-origin: 0.42rem 50%;
+    }
+
+    .tag::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0.42rem;
+      width: 0.3rem;
+      height: 0.3rem;
+      margin: -0.15rem 0 0 -0.15rem;
+      border-radius: 50%;
+      background: var(--surface);
+    }
+
+    .stub-wrap:hover .tag {
+      animation: swing 900ms ease-in-out;
+    }
+
+    /* The punch list: a box, and a brass check written in left to right */
+
+    .ticks {
+      display: grid;
+      gap: 0.6rem;
       margin: 0;
       padding: 0;
-      color: var(--muted);
       list-style: none;
     }
 
-    .not-offered-list li {
+    .ticks li {
       position: relative;
-      padding-left: 1rem;
+      padding-left: 2rem;
+      color: var(--muted);
+      font-size: 0.97rem;
     }
 
-    .not-offered-list li::before {
-      content: "—";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-    }
-
-    .not-offered-list a {
-      text-decoration-thickness: 1px;
-      text-underline-offset: 0.2rem;
-      transition: color 200ms ease;
-    }
-
-    .not-offered-list a:hover {
+    .ticks li strong {
       color: var(--ink);
+      font-weight: 650;
     }
 
-    .scope-copy {
-      max-width: 52rem;
-      margin: 0 0 1rem;
+    .ticks li::before {
+      content: "";
+      position: absolute;
+      top: 0.2rem;
+      left: 0;
+      width: 1.05rem;
+      height: 1.05rem;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 2px;
+      background: rgba(16, 36, 28, 0.6);
+    }
+
+    .ticks li::after {
+      content: "";
+      position: absolute;
+      top: 0.02rem;
+      left: -0.08rem;
+      width: 1.35rem;
+      height: 1.35rem;
+      background: var(--check) center / contain no-repeat;
+      animation: tick-in 420ms var(--ease-out) both;
+    }
+
+    .ticks li:nth-child(2)::after {
+      animation-delay: 120ms;
+    }
+
+    .ticks li:nth-child(3)::after {
+      animation-delay: 240ms;
+    }
+
+    /* Why Cardell: three habits on one plank, already ticked */
+
+    .plank {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      background: linear-gradient(rgba(239, 226, 197, 0.04), rgba(239, 226, 197, 0.04)), var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      box-shadow: var(--chalk-shadow);
+      view-timeline: --plank block;
+    }
+
+    .habit-col {
+      padding: clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    .habit-col + .habit-col {
+      border-left: 1px solid var(--line);
+    }
+
+    .habit {
+      position: relative;
+      display: block;
+      width: 1.6rem;
+      height: 1.6rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .habit::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 2px;
+      background: rgba(16, 36, 28, 0.6);
+    }
+
+    .habit::after {
+      content: "";
+      position: absolute;
+      top: -0.3rem;
+      left: -0.15rem;
+      width: 2.05rem;
+      height: 2.05rem;
+      background: var(--check) center / contain no-repeat;
+      animation: tick-in 420ms var(--ease-out) both;
+    }
+
+    .habit-col:nth-child(2) .habit::after {
+      animation-delay: 120ms;
+    }
+
+    .habit-col:nth-child(3) .habit::after {
+      animation-delay: 240ms;
+    }
+
+    .habit-col p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    /* The fence: one plate, one sentence, on dashed tear lines. A label on the bench, not a sign on the door. */
+
+    .cabinet-line {
+      display: grid;
+      grid-template-columns: minmax(9rem, 0.36fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+      margin-top: clamp(2.5rem, 5vw, 4rem);
+      padding: 1.5rem 0;
+      border-top: 1px dashed var(--line);
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .cabinet-line h3 {
+      margin: 0;
+    }
+
+    .cabinet-line p {
+      max-width: 50rem;
+      margin: 0;
       color: var(--muted);
     }
+
+    /* Contact: the work order on the clipboard. Contact-ink only on cream, never muted, never accent. */
 
     .contact-section {
       padding: clamp(1rem, 4vw, 3rem) 0 clamp(4rem, 9vw, 7rem);
+      scroll-margin-top: 1rem;
     }
 
-    .contact-panel {
+    .work-order {
       position: relative;
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 3rem;
+      gap: 2.5rem;
       align-items: end;
-      padding: clamp(2rem, 6vw, 4.5rem);
-      background: var(--surface);
-      border: 1px solid var(--line-strong);
-      border-radius: 0;
-      color: var(--ink);
-      box-shadow: var(--shadow);
-      overflow: hidden;
+      padding: clamp(2rem, 5vw, 4rem);
+      background:
+        linear-gradient(rgba(20, 41, 31, 0.08) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+        linear-gradient(90deg, rgba(20, 41, 31, 0.08) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+        radial-gradient(circle at 100% 100%, rgba(217, 189, 120, 0.45), rgba(217, 189, 120, 0) 38%),
+        var(--ink);
+      color: var(--contact-ink);
+      border-radius: 2px;
+      box-shadow: 6px 6px 0 var(--surface);
     }
 
-    .contact-panel::before {
+    .work-order::before {
       content: "";
       position: absolute;
-      inset: 0 0 auto;
-      height: 0.75rem;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'%3E%3Cpath d='M0 6h8V1h8v10h8V6h8' fill='none' stroke='%23d9bd78' stroke-width='1'/%3E%3C/svg%3E");
-      background-repeat: repeat-x;
-      background-size: 2rem 0.75rem;
-      opacity: 0.55;
+      top: -0.9rem;
+      left: 50%;
+      width: 7rem;
+      height: 1.8rem;
+      margin-left: -3.5rem;
+      background: linear-gradient(180deg, rgba(239, 226, 197, 0.35), transparent 50%), var(--accent);
+      border: 1px solid var(--contact-ink);
+      border-radius: 0.25rem;
+      box-shadow: inset 0 1px 0 rgba(239, 226, 197, 0.6), 2px 2px 0 var(--surface);
     }
 
-    .contact-panel .section-kicker {
-      color: var(--accent);
+    .work-order::after {
+      content: "";
+      position: absolute;
+      inset: 0.5rem;
+      border: 1px dashed rgba(20, 41, 31, 0.28);
+      border-radius: 2px;
+      pointer-events: none;
     }
 
-    .contact-panel h2 {
-      max-width: 13ch;
-      margin: 0.9rem 0 1.2rem;
+    .work-order > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .work-order .kicker {
+      margin: 0 0 0.9rem;
+      color: rgba(20, 41, 31, 0.78);
+      font: 750 0.7rem/1.4 var(--mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .work-order h2 {
+      max-width: 14ch;
+      margin: 0 0 1.2rem;
+      color: var(--contact-ink);
     }
 
     .contact-copy {
       max-width: 38rem;
       margin-bottom: 1.25rem;
-      color: var(--muted);
+      color: rgba(20, 41, 31, 0.72);
     }
 
     .contact-note {
       max-width: 38rem;
       margin: 0;
       padding-top: 1rem;
-      border-top: 1px solid var(--line);
-      color: var(--ink);
+      border-top: 1px dashed rgba(20, 41, 31, 0.4);
+      color: var(--contact-ink);
     }
 
     .contact-details {
@@ -704,26 +1192,46 @@
       text-align: right;
     }
 
+    .work-order .button-primary {
+      min-height: 3.75rem;
+      margin-bottom: 1.1rem;
+      padding: 1rem 1.8rem;
+      background: var(--contact-ink);
+      border-color: var(--contact-ink);
+      color: var(--ink);
+      font-size: 1.05rem;
+      box-shadow: 3px 3px 0 var(--surface);
+    }
+
+    .work-order .button-primary:hover {
+      background: var(--paper);
+      box-shadow: 4px 4px 0 var(--surface);
+    }
+
+    .work-order .button-primary:active {
+      box-shadow: 1px 1px 0 var(--surface);
+    }
+
     .email {
       display: inline-block;
-      color: var(--ink);
-      font-family: var(--mono);
-      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
-      font-weight: 720;
+      color: var(--contact-ink);
+      font: 720 clamp(1rem, 2vw, 1.25rem)/1.3 var(--mono);
       text-decoration-thickness: 1px;
       text-underline-offset: 0.35rem;
-      transition: color 200ms ease;
+      transition: color 160ms ease;
     }
 
     .email:hover {
-      color: var(--accent);
+      color: rgba(20, 41, 31, 0.72);
     }
 
-    .contact-panel a:focus-visible {
-      outline-color: var(--accent);
+    .work-order a:focus-visible {
+      outline-color: var(--contact-ink);
     }
 
-    footer {
+    /* Footer */
+
+    .site-footer {
       display: flex;
       justify-content: space-between;
       gap: 2rem;
@@ -734,24 +1242,26 @@
       text-transform: uppercase;
     }
 
-    footer p {
+    .site-footer p {
       margin: 0;
     }
 
     .footer-email {
       text-decoration-thickness: 1px;
       text-underline-offset: 0.25rem;
-      transition: color 200ms ease;
+      transition: color 160ms ease;
     }
 
     .footer-email:hover {
       color: var(--ink);
     }
 
+    /* Keyframes. Every from-state lives here and only here, so animation: none leaves the page finished. */
+
     @keyframes rise-in {
       from {
         opacity: 0;
-        translate: 0 1rem;
+        translate: 0 1.2rem;
       }
       to {
         opacity: 1;
@@ -759,147 +1269,319 @@
       }
     }
 
+    @keyframes drawer-out {
+      from {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes tick-in {
+      from {
+        clip-path: inset(0 100% 0 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes numeral-in {
+      from {
+        opacity: 0;
+        translate: -0.3em 0;
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+      }
+    }
+
+    @keyframes draw-x {
+      from {
+        clip-path: inset(0 100% 0 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes draw-y {
+      from {
+        clip-path: inset(0 0 100% 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    @keyframes swing {
+      0% {
+        transform: rotate(-2deg);
+      }
+      25% {
+        transform: rotate(-7deg);
+      }
+      60% {
+        transform: rotate(3deg);
+      }
+      100% {
+        transform: rotate(-2deg);
+      }
+    }
+
+    @keyframes draw {
+      from {
+        stroke-dashoffset: 1;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fade-dim {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.6);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes press {
+      0%,
+      3%,
+      10%,
+      100% {
+        transform: none;
+      }
+      6% {
+        transform: translateY(2px);
+      }
+    }
+
+    @keyframes blip {
+      0%,
+      3%,
+      10%,
+      36.33%,
+      43.33%,
+      69.67%,
+      76.67%,
+      100% {
+        opacity: 0.14;
+      }
+      6%,
+      39.33%,
+      72.67% {
+        opacity: 0.3;
+      }
+    }
+
+    /* Scroll-driven: reveals, and the punch list ticked as each stub arrives. animation-timeline always follows the shorthand. */
+
     @supports (animation-timeline: view()) {
-      .section-heading,
-      .service-card,
-      .process,
-      .principles,
-      .contact-panel {
+      .reveal {
         animation: rise-in linear both;
-        animation-delay: 0ms;
         animation-timeline: view();
-        animation-range: entry 5% cover 24%;
+        animation-range: entry 5% cover 22%;
+      }
+
+      .step-num {
+        animation: numeral-in linear both;
+        animation-timeline: --ticket;
+        animation-range: entry 0% entry 45%;
+      }
+
+      .step:nth-child(2) .step-num {
+        animation-range: entry 15% entry 60%;
+      }
+
+      .step:nth-child(3) .step-num {
+        animation-range: entry 30% entry 75%;
+      }
+
+      .step::before,
+      .step::after {
+        animation: draw-x linear both;
+        animation-timeline: --ticket;
+      }
+
+      .step:nth-child(1)::after {
+        animation-range: entry 20% entry 45%;
+      }
+
+      .step:nth-child(2)::before {
+        animation-range: entry 45% entry 55%;
+      }
+
+      .step:nth-child(2)::after {
+        animation-range: entry 55% entry 80%;
+      }
+
+      .step:nth-child(3)::before {
+        animation-range: entry 80% entry 90%;
+      }
+
+      @media (max-width: 48rem) {
+        .step::before,
+        .step::after {
+          animation-name: draw-y;
+        }
+      }
+
+      .ticks li::after {
+        animation-delay: 0ms;
+        animation-timeline: --card;
+        animation-range: entry 30% entry 60%;
+      }
+
+      .ticks li:nth-child(2)::after {
+        animation-range: entry 40% entry 70%;
+      }
+
+      .ticks li:nth-child(3)::after {
+        animation-range: entry 45% entry 65%;
+      }
+
+      .habit::after {
+        animation-delay: 0ms;
+        animation-timeline: --plank;
+        animation-range: entry 20% entry 50%;
+      }
+
+      .habit-col:nth-child(2) .habit::after {
+        animation-range: entry 30% entry 60%;
+      }
+
+      .habit-col:nth-child(3) .habit::after {
+        animation-range: entry 35% entry 55%;
+      }
+    }
+
+    /* Breakpoints */
+
+    @media (min-width: 64rem) {
+      body {
+        font-size: 1.0625rem;
+      }
+
+      .header-cta {
+        display: inline-flex;
+      }
+
+      .hero-layout {
+        grid-template-columns: minmax(0, 1.3fr) minmax(16rem, 0.7fr);
+        gap: clamp(2.5rem, 6vw, 5rem);
+        align-items: start;
+      }
+
+      .stub {
+        padding: 2.25rem 2.25rem 2.25rem calc(var(--perf) + 1.85rem);
+      }
+
+      .sheet {
+        width: min(100%, 26rem);
       }
     }
 
     @media (max-width: 64rem) {
-      .site-header {
-        align-items: flex-start;
-        gap: 1rem;
-        min-height: 5rem;
-        padding: 0.75rem 0;
+      .header-row {
+        min-height: 5.25rem;
       }
 
       .brand {
-        height: 3.5rem;
-      }
-
-      .desktop-nav {
-        display: none;
-      }
-
-      .mobile-navigation {
-        display: block;
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-
-      .mobile-navigation > summary {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 0.65rem;
-        width: fit-content;
-        min-height: 3.5rem;
-        margin-left: auto;
-        padding: 0 0 0 0.75rem;
-        color: var(--ink);
-        cursor: pointer;
-        list-style: none;
-        font: 700 0.76rem/1.2 var(--mono);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .mobile-navigation > summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .mobile-navigation > summary::marker {
-        content: "";
-      }
-
-      .mobile-navigation > summary:focus-visible {
-        outline: 3px solid var(--accent);
-        outline-offset: 4px;
-        border-radius: 0.2rem;
-      }
-
-      .mobile-navigation > .mobile-nav {
-        display: none;
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        gap: 1rem;
-        padding: 0.25rem 0 0.75rem;
-      }
-
-      .mobile-navigation[open] > .mobile-nav {
-        display: flex;
-      }
-
-      .mobile-navigation > .mobile-nav a {
-        display: inline-flex;
-        align-items: center;
-        min-height: 2.75rem;
+        height: 4rem;
       }
     }
 
     @media (max-width: 48rem) {
-      .hero {
-        padding-top: 3rem;
-      }
-
-      .hero-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .hero-copy {
-        max-width: 34rem;
-      }
-
-      .section-heading {
+      .section-heading,
+      .cabinet-line {
         grid-template-columns: 1fr;
         gap: 1rem;
       }
 
-      .process-heading,
-      .process-steps,
-      .principles-list {
-        grid-template-columns: 1fr;
+      .section-heading .plate {
+        margin-top: 0;
       }
 
-      .process-heading {
-        gap: 1rem;
-      }
-
-      .process-step {
-        min-height: 0;
-      }
-
-      .process-step + .process-step {
-        border-top: 1px solid var(--line);
-        border-left: 0;
-      }
-
-      .principles-list {
-        gap: 0.85rem;
-      }
-
-      .principles-list li,
-      .principles-list li:first-child {
-        padding: 0.75rem 0 0.75rem 1.25rem;
-      }
-
-      .principles-list li + li {
-        border-top: 1px solid var(--line);
-        border-left: 0;
-      }
-
+      .ticket,
+      .plank,
       .service-grid,
-      .contact-panel {
+      .work-order {
         grid-template-columns: 1fr;
+      }
+
+      .step + .step,
+      .habit-col + .habit-col {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        column-gap: 1.1rem;
+        align-items: start;
+      }
+
+      .step-num {
+        grid-row: 1 / 3;
+        margin: 0;
+      }
+
+      .step h3 {
+        grid-column: 2;
+        margin-top: 0.3rem;
+      }
+
+      .step p {
+        grid-column: 2;
+      }
+
+      .step::before,
+      .step::after {
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: calc(var(--step-pad) + var(--num) * 0.6 - 1.5px);
+        width: 3px;
+        height: auto;
+        background: radial-gradient(circle, var(--accent) 1.1px, transparent 1.6px) 50% 0 / 3px 12px repeat-y;
+      }
+
+      .step::before {
+        top: -1px;
+        height: calc(var(--step-pad) + var(--num) * 0.425 + 1px);
+      }
+
+      .step::after {
+        top: calc(var(--step-pad) + var(--num) * 0.425);
+        bottom: 0;
       }
 
       .contact-details {
@@ -914,62 +1596,83 @@
     }
 
     @media (max-width: 34rem) {
-      body::before {
-        inset: 0.3rem;
-      }
-
       .shell {
         width: min(100% - 1.5rem, 72rem);
       }
 
-      .brand {
-        height: 3rem;
+      .header-row {
+        min-height: 4.75rem;
       }
 
-      .mobile-navigation > summary {
-        min-height: 3rem;
+      .brand {
+        height: 3.5rem;
+      }
+
+      .menu-button {
+        padding: 0 0.85rem 0 0.8rem;
       }
 
       .hero {
-        padding-top: 2.25rem;
+        padding-top: 2.5rem;
+      }
+
+      .ticket {
+        --num: 3.5rem;
+      }
+
+      .hero-copy > .plate.screwed {
+        padding-inline: 1.25rem;
+        letter-spacing: 0.1em;
+      }
+
+      .rail > li {
+        grid-template-columns: 1fr;
+        row-gap: 0.3rem;
+      }
+
+      .rail > li:not(:last-child)::before {
+        display: none;
+      }
+
+      .rail-num {
+        padding-top: 0;
+      }
+
+      .plate-tail {
+        display: none;
       }
 
       .hero-layout {
-        gap: 1.5rem;
-      }
-
-      .hero::before {
-        right: -14rem;
-      }
-
-      h1 {
-        font-size: clamp(2.75rem, 12vw, 3.25rem);
-      }
-
-      .hero-copy {
-        margin-bottom: 1.5rem;
+        gap: 2.5rem;
       }
 
       .actions {
-        align-items: stretch;
         flex-direction: column;
+        align-items: stretch;
       }
 
       .button {
         width: 100%;
       }
 
-      .service-card {
-        min-height: 16rem;
+      .stub .button {
+        align-self: stretch;
       }
 
-      footer {
-        grid-template-columns: 1fr;
+      .site-footer {
         display: grid;
+        grid-template-columns: 1fr;
         gap: 1rem;
       }
-
     }
+
+    @media (max-width: 22rem) {
+      .hero-copy > .plate.screwed {
+        letter-spacing: 0.06em;
+      }
+    }
+
+    /* Reduced motion. Base rules never hide anything, so this only has to switch the motion off. */
 
     @media (prefers-reduced-motion: reduce) {
       html {
@@ -980,25 +1683,25 @@
       *::before,
       *::after {
         animation: none !important;
-        scroll-behavior: auto !important;
         transition: none !important;
+        scroll-behavior: auto !important;
       }
 
+      .draw path,
+      .draw circle {
+        stroke-dashoffset: 0;
+      }
+
+      .stub-wrap:hover,
+      .menu-button:hover,
       .button:hover,
-      .service-card:hover,
-      .service-card:hover::before,
-      .service-card:hover::after {
+      .button:active {
         transform: none;
-        translate: none;
       }
 
-      .hero-layout > *,
-      .section-heading,
-      .service-card,
-      .process,
-      .principles,
-      .contact-panel {
-        opacity: 1 !important;
+      .tag,
+      .stub-wrap:hover .tag {
+        transform: rotate(-2deg);
       }
     }
   </style>
@@ -1006,164 +1709,263 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <header class="shell site-header">
-    <a class="brand" href="#top">
-      <img src="cardell-logo.jpg" alt="Cardell Exhibit Service" width="1360" height="455" decoding="async">
-    </a>
-    <nav class="site-nav desktop-nav" aria-label="Primary">
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <details class="mobile-navigation">
-      <summary>
-        <span class="menu-icon" aria-hidden="true"></span>
-        <span>Menu</span>
-      </summary>
-      <nav class="site-nav mobile-nav" aria-label="Primary">
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </details>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="#top">
+        <img src="cardell-logo.jpg" alt="Cardell Exhibit Service" width="1360" height="455" decoding="async" fetchpriority="high">
+      </a>
+      <div class="header-tools">
+        <a class="button button-secondary header-cta" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a survey</a>
+      <details class="menu">
+        <summary class="menu-button">
+          <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Menu</span>
+        </summary>
+        <nav class="menu-panel" aria-label="Site">
+          <a href="#services">Services</a>
+          <a href="#how">How it works</a>
+          <a href="#why">Why Cardell</a>
+          <a href="#contact">Contact</a>
+          <a class="menu-cta" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a survey</a>
+        </nav>
+      </details>
+      </div>
+    </div>
   </header>
 
   <main id="main-content">
-    <section class="shell hero" id="top" aria-labelledby="hero-heading">
-      <div class="hero-layout">
-        <div>
-          <p class="eyebrow">The original shop is gone. Saturday still happens.</p>
-          <h1 id="hero-heading">Service for existing learning-center stations in Washington.</h1>
+    <section class="hero" id="top" aria-labelledby="hero-heading">
+      <div class="shell hero-layout">
+        <div class="hero-copy">
+          <p class="plate screwed">Existing stations &middot; South Puget Sound<span class="plate-tail">, Washington</span></p>
+          <h1 id="hero-heading">Service for <em>existing</em> <span class="nb">learning-center</span> stations in Washington.</h1>
+          <ol class="rail" role="list">
+            <li>
+              <span class="rail-num" aria-hidden="true">01</span>
+              <p class="lede"><strong>An exhibit is a learning-center station kids use.</strong> Cabinet, buttons, screen. It has been on your floor for years.</p>
+            </li>
+            <li>
+              <span class="rail-num" aria-hidden="true">02</span>
+              <p class="lede">When the shop that built it is gone and the station goes dark, <strong>we take that station over.</strong> You keep the exhibit. We keep it running.</p>
+            </li>
+            <li>
+              <span class="rail-num" aria-hidden="true">03</span>
+              <div class="start">
+                <p class="plate">How to start</p>
+                <div class="actions">
+                  <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a survey</a>
+                  <a class="button button-secondary" href="#services">See the four services</a>
+                </div>
+                <p class="start-note">A survey is one half-day on your floor and a punch list in five days. After that, only what you circle gets done.</p>
+              </div>
+            </li>
+          </ol>
         </div>
-        <div>
-          <p class="hero-copy">An exhibit is a learning-center station kids use, built into a cabinet with buttons and a screen. When the original shop is gone and that station goes dark, we take that station over. You keep the exhibit. We do not rebuild the gallery.</p>
-          <div class="actions">
-            <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about survey</a>
-            <a class="button button-secondary" href="#services">View services</a>
+
+        <figure class="sheet">
+          <div class="sheet-board">
+            <svg class="drawing" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
+              <g class="draw" fill="none" stroke="#efe2c5" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+                <path class="cabinet" pathLength="1" d="M70 40h220v210H70z"/>
+                <path class="plinth" pathLength="1" d="M90 250v14M270 250v14M62 264h236"/>
+                <path class="bezel" pathLength="1" d="M95 60h170v110H95z"/>
+                <path class="screen" pathLength="1" d="M105 70h150v90H105z"/>
+                <path class="btn" pathLength="1" d="M123 195a12 12 0 1 0 24 0a12 12 0 1 0 -24 0z"/>
+                <path class="btn" pathLength="1" d="M168 195a12 12 0 1 0 24 0a12 12 0 1 0 -24 0z"/>
+                <path class="btn" pathLength="1" d="M213 195a12 12 0 1 0 24 0a12 12 0 1 0 -24 0z"/>
+                <path class="dash" d="M95 195h170"/>
+                <path class="dash" d="M78 222h204"/>
+                <path class="dash hidden" d="M140 228h80v14h-80z"/>
+              </g>
+              <g class="screen-on">
+                <rect x="105" y="70" width="150" height="90" fill="#d9bd78" opacity="0.14"/>
+                <path d="M170 103l22 12-22 12z" fill="#d9bd78"/>
+              </g>
+              <g class="callouts" font-family="Cascadia Mono, SFMono-Regular, Consolas, Liberation Mono, monospace" font-size="10" font-weight="700">
+                <g class="callout"><path d="M258 100h57" stroke="#d9bd78"/><circle cx="326" cy="100" r="11" fill="#d9bd78"/><text x="326" y="103.5" text-anchor="middle" fill="#14291f">1</text></g>
+                <g class="callout"><path d="M290 150h25" stroke="#d9bd78"/><circle cx="326" cy="150" r="11" fill="#d9bd78"/><text x="326" y="153.5" text-anchor="middle" fill="#14291f">2</text></g>
+                <g class="callout"><path d="M239 195h76" stroke="#d9bd78"/><circle cx="326" cy="195" r="11" fill="#d9bd78"/><text x="326" y="198.5" text-anchor="middle" fill="#14291f">3</text></g>
+                <g class="callout"><path d="M223 235h92" stroke="#d9bd78"/><circle cx="326" cy="235" r="11" fill="#d9bd78"/><text x="326" y="238.5" text-anchor="middle" fill="#14291f">4</text></g>
+              </g>
+            </svg>
+            <p class="title-block" aria-hidden="true"><span>Station &middot; front view</span><span>Not to scale</span></p>
           </div>
-        </div>
+          <figcaption>1 Screen &middot; 2 Cabinet &middot; 3 Buttons &middot; 4 Player inside. That is the station we service.</figcaption>
+        </figure>
       </div>
     </section>
 
-    <div class="shell meander" aria-hidden="true"></div>
+    <div class="shell rule" aria-hidden="true"></div>
 
-    <section class="shell section" id="services" aria-labelledby="services-heading">
-      <div class="section-heading">
-        <p class="section-kicker">Services</p>
-        <h2 id="services-heading">Technical service for existing interactive exhibits.</h2>
-      </div>
-
-      <div class="service-grid">
-        <article class="service-card">
-          <span class="card-number" aria-hidden="true">01</span>
-          <h3>Survey</h3>
-          <div class="service-body">
-            <p class="service-intro">We come to the learning center. We play each interactive, open the cabinet if it is meant to open, and write down what is in it and what is failing.</p>
-            <p><strong>You get:</strong> one half-day on site, then a punch list in five days. Each station has a name, what is wrong, and one clear next step.</p>
-            <p><strong>You do not get:</strong> a repair that day, new videos, or a new cabinet. If something is hardwired, a TV, or a projector, the list says who should handle it. We do not surprise you with that work.</p>
+    <section class="band section" id="how" aria-labelledby="how-heading">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="plate screwed">How it works</p>
+          <div>
+            <h2 id="how-heading">Survey first. Then only what you circle.</h2>
+            <p class="section-lede">You see the list before anything gets opened up, and you decide what happens next.</p>
           </div>
-          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about survey</a>
-        </article>
-
-        <article class="service-card">
-          <span class="card-number" aria-hidden="true">02</span>
-          <h3>Break/fix</h3>
-          <div class="service-body">
-            <p class="service-intro">The station already on the floor. We diagnose it and repair it so the same show runs again.</p>
-            <p><strong>You get:</strong> someone on site who already knows this kind of cabinet. If a cable, memory card, power supply, or button died, we replace that and the exhibit stays itself.</p>
-            <p><strong>You do not get:</strong> a new computer if the old player is dead. That is a conversion, and we will say so before we do it. We do not rewrite your content or rebuild the woodwork.</p>
-          </div>
-          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Break%2Ffix%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStation%20name%20or%20how%20you%20would%20describe%20it%3A%0D%0A%0D%0AWhat%20it%20is%20supposed%20to%20do%3A%0D%0A%0D%0AWhat%20it%20is%20doing%20instead%3A%0D%0A%0D%0AWhen%20it%20started%20%28if%20you%20know%29%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about break/fix</a>
-        </article>
-
-        <article class="service-card">
-          <span class="card-number" aria-hidden="true">03</span>
-          <h3>Conversion</h3>
-          <div class="service-body">
-            <p class="service-intro">The player or controller is dead. We take it out and put in a new one that plays the same media, uses the same buttons, and sits in the same cabinet.</p>
-            <p><strong>You get:</strong> the station working again, a spare card you can swap if you have to, and a one-page operator card in plain English (how to power it, how to swap the spare, who to email). Your staff can keep it running without us in the building.</p>
-            <p><strong>You do not get:</strong> new videos, a new cabinet, a new TV, or anything that mounts to the building. If a display is the thing that failed, that is a TV or projector shop, not us. If you want a carpenter, you hire the carpenter. We do the player.</p>
-          </div>
-          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Conversion%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStation%20name%20or%20how%20you%20would%20describe%20it%3A%0D%0A%0D%0AWhat%20it%20is%20supposed%20to%20do%3A%0D%0A%0D%0AIs%20the%20player%20or%20controller%20dead%2C%20or%20just%20the%20show%3A%0D%0A%0D%0ADoes%20the%20screen%2FTV%20still%20work%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a conversion</a>
-        </article>
-
-        <article class="service-card">
-          <span class="card-number" aria-hidden="true">04</span>
-          <h3>Care</h3>
-          <div class="service-body">
-            <p class="service-intro">A one-year agreement for the stations you name. We come back on a schedule, play them, and tell you what is dying before Saturday does.</p>
-            <p><strong>You get:</strong> a named list in writing, periodic checks, and a person who already has the spare and the notes. Parts and conversions are extra, and we quote them first.</p>
-            <p><strong>You do not get:</strong> unlimited emergency visits, new stations added in silence, or a remodel. If something dies between checks, that is a break/fix visit, quoted like one.</p>
-          </div>
-          <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Care%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStations%20to%20put%20on%20the%20list%20%28names%20or%20descriptions%29%3A%0D%0A%0D%0AProblems%20you%20already%20know%20about%3A%0D%0A%0D%0AAny%20Saturday%20or%20school-year%20dates%20we%20should%20not%20miss%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about care</a>
-        </article>
-      </div>
-
-      <section class="process" aria-labelledby="process-heading">
-        <div class="process-heading">
-          <p class="section-kicker">How it works</p>
-          <h3 id="process-heading">Survey to approved work.</h3>
         </div>
 
-        <ol class="process-steps" role="list">
-          <li class="process-step">
-            <span class="process-number" aria-hidden="true">01</span>
-            <h4>Survey</h4>
-            <p>We spend a half-day on the floor.</p>
+        <ol class="ticket reveal" role="list">
+          <li class="step">
+            <span class="step-num" aria-hidden="true">01</span>
+            <h3>Survey</h3>
+            <p>A half-day on your floor. We play every station and open the cabinets that are meant to open.</p>
           </li>
-          <li class="process-step">
-            <span class="process-number" aria-hidden="true">02</span>
-            <h4>Punch list</h4>
-            <p>Within five days you get a written punch list.</p>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">02</span>
+            <h3>Punch list</h3>
+            <p>Within five days, in writing: each station by name, what is wrong, and one clear next step.</p>
           </li>
-          <li class="process-step">
-            <span class="process-number" aria-hidden="true">03</span>
-            <h4>Break/fix, conversion, or care</h4>
-            <p>Then only what you circled gets done. Nothing else starts until you say so.</p>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">03</span>
+            <h3>Your call</h3>
+            <p>Circle what you want done. Break/fix, conversion, or care starts only when you say so.</p>
           </li>
         </ol>
-
-      </section>
-
-      <section class="principles" aria-labelledby="principles-heading">
-        <h3 class="principles-label" id="principles-heading">Why Cardell</h3>
-        <ul class="principles-list" role="list">
-          <li>Preserve the existing exhibit.</li>
-          <li>Document the work.</li>
-          <li>Leave a spare and a one-page operator card.</li>
-        </ul>
-      </section>
-
-      <section class="principles not-offered" aria-labelledby="scope-heading">
-        <h3 class="principles-label" id="scope-heading">We stay in the cabinet</h3>
-        <p class="scope-copy">We service the station already in the cabinet. If you need a new gallery, a new video, or a TV hung, that work belongs with a different shop.</p>
-        <ul class="not-offered-list" role="list">
-          <li>Gallery remodels.</li>
-          <li>New exhibits.</li>
-          <li>New videos.</li>
-          <li>TVs and projectors.</li>
-          <li>Building mounts.</li>
-          <li>Electrical.</li>
-          <li>Networks.</li>
-        </ul>
-      </section>
-
+      </div>
     </section>
 
-    <section class="shell contact-section" id="contact" aria-labelledby="contact-heading">
-      <div class="contact-panel">
-        <div>
-          <p class="section-kicker">Contact</p>
-          <h2 id="contact-heading">Service inquiries.</h2>
-          <p class="contact-copy">Choose the service above. Each button opens an email addressed to Cardell with the right questions already in place.</p>
-          <p class="contact-note">If you do not know the technical name, describe it like you would to a colleague. That is enough.</p>
+    <section class="section" id="services" aria-labelledby="services-heading">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="plate screwed">Services</p>
+          <div>
+            <h2 id="services-heading">Four ways we keep a station running.</h2>
+            <p class="section-lede">Each one ends with something in your hand: a list, a working station, a spare, or the notes.</p>
+          </div>
         </div>
-        <div class="contact-details">
-          <a class="email" href="mailto:nick@cardellexhibits.com?subject=Exhibit%20help&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AWhat%20you%20need%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">nick@cardellexhibits.com</a>
+
+        <div class="service-grid">
+          <article class="stub-wrap reveal">
+            <span class="tag" aria-hidden="true">01</span>
+            <div class="stub">
+              <h3>Survey</h3>
+              <p class="service-intro">We come to the learning center, play each interactive, and open the cabinet if it is meant to open. Then we write down what is in it and what is failing.</p>
+              <div class="you-get">
+                <p class="plate">You get</p>
+                <ul class="ticks" role="list">
+                  <li><strong>One half-day on site,</strong> every station played by hand.</li>
+                  <li><strong>A punch list in five days:</strong> each station named, what is wrong, one clear next step.</li>
+                  <li><strong>A note on anything that belongs with another trade,</strong> so nothing surprises you later.</li>
+                </ul>
+              </div>
+              <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Survey%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AAbout%20how%20many%20stations%20should%20we%20look%20at%3A%0D%0A%0D%0AWhen%20can%20we%20be%20on%20the%20floor%20%28days%2Ftimes%20that%20work%29%3A%0D%0A%0D%0AWhat%20is%20already%20dead%20or%20acting%20up%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a survey</a>
+            </div>
+          </article>
+
+          <article class="stub-wrap reveal">
+            <span class="tag" aria-hidden="true">02</span>
+            <div class="stub">
+              <h3>Break/fix</h3>
+              <p class="service-intro">The station already on the floor. We diagnose it and repair it so the same show runs again.</p>
+              <div class="you-get">
+                <p class="plate">You get</p>
+                <ul class="ticks" role="list">
+                  <li><strong>Someone on site</strong> who already knows this kind of cabinet.</li>
+                  <li><strong>Cables, memory cards, power supplies, and buttons replaced,</strong> so the exhibit stays itself.</li>
+                  <li><strong>A straight answer if the old player is dead.</strong> That is a conversion, and we say so before we start.</li>
+                </ul>
+              </div>
+              <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Break%2Ffix%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStation%20name%20or%20how%20you%20would%20describe%20it%3A%0D%0A%0D%0AWhat%20it%20is%20supposed%20to%20do%3A%0D%0A%0D%0AWhat%20it%20is%20doing%20instead%3A%0D%0A%0D%0AWhen%20it%20started%20%28if%20you%20know%29%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about break/fix</a>
+            </div>
+          </article>
+
+          <article class="stub-wrap reveal">
+            <span class="tag" aria-hidden="true">03</span>
+            <div class="stub">
+              <h3>Conversion</h3>
+              <p class="service-intro">The player or controller is dead. We take it out and put in a new one that plays the same media, uses the same buttons, and sits in the same cabinet.</p>
+              <div class="you-get">
+                <p class="plate">You get</p>
+                <ul class="ticks" role="list">
+                  <li><strong>The station working again,</strong> playing the same show.</li>
+                  <li><strong>A spare memory card</strong> you can swap yourself.</li>
+                  <li><strong>A one-page operator card in plain English:</strong> how to power it, how to swap the spare, who to email.</li>
+                </ul>
+              </div>
+              <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Conversion%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStation%20name%20or%20how%20you%20would%20describe%20it%3A%0D%0A%0D%0AWhat%20it%20is%20supposed%20to%20do%3A%0D%0A%0D%0AIs%20the%20player%20or%20controller%20dead%2C%20or%20just%20the%20show%3A%0D%0A%0D%0ADoes%20the%20screen%2FTV%20still%20work%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a conversion</a>
+            </div>
+          </article>
+
+          <article class="stub-wrap reveal">
+            <span class="tag" aria-hidden="true">04</span>
+            <div class="stub">
+              <h3>Care</h3>
+              <p class="service-intro">A one-year agreement for the stations you name. We come back on a schedule, play them, and tell you what is wearing out before Saturday does.</p>
+              <div class="you-get">
+                <p class="plate">You get</p>
+                <ul class="ticks" role="list">
+                  <li><strong>A named list of stations,</strong> in writing, for the year.</li>
+                  <li><strong>Periodic checks</strong> where we play each one, not just power it on.</li>
+                  <li><strong>Someone who already has the spare and the notes.</strong> Parts and conversions are quoted first.</li>
+                </ul>
+              </div>
+              <a class="button button-secondary" href="mailto:nick@cardellexhibits.com?subject=Care%20request&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AStations%20to%20put%20on%20the%20list%20%28names%20or%20descriptions%29%3A%0D%0A%0D%0AProblems%20you%20already%20know%20about%3A%0D%0A%0D%0AAny%20Saturday%20or%20school-year%20dates%20we%20should%20not%20miss%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about care</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band section" id="why" aria-labelledby="why-heading">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="plate screwed">Why Cardell</p>
+          <div>
+            <h2 id="why-heading">Three habits we keep on every job.</h2>
+            <p class="section-lede">They are why a station we touch is easier to live with the next year, not harder.</p>
+          </div>
+        </div>
+
+        <div class="plank reveal">
+          <div class="habit-col">
+            <span class="habit" aria-hidden="true"></span>
+            <h3>We keep the exhibit.</h3>
+            <p>The cabinet, the buttons, and the show your visitors know stay right where they are. We work behind them.</p>
+          </div>
+          <div class="habit-col">
+            <span class="habit" aria-hidden="true"></span>
+            <h3>We document the work.</h3>
+            <p>Every visit ends with notes: what we found, what we changed, what to watch. You can hand them to the next person.</p>
+          </div>
+          <div class="habit-col">
+            <span class="habit" aria-hidden="true"></span>
+            <h3>We leave a spare and an operator card.</h3>
+            <p>One page in plain English, plus the spare that fits. Your staff can keep the station running without us in the building.</p>
+          </div>
+        </div>
+
+        <div class="cabinet-line reveal">
+          <h3>We stay in the cabinet.</h3>
+          <p>We service the station already in the cabinet: the player, the buttons, the show. New galleries, new videos, and TVs on the wall belong with a different shop, and our punch list will say so.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="shell">
+        <div class="work-order reveal">
+          <div>
+            <p class="kicker">Contact</p>
+            <h2 id="contact-heading">Email Nick about a station.</h2>
+            <p class="contact-copy">Pick a service above and the email opens with the right questions already in place. Or just describe the station like you would to a colleague. That is enough.</p>
+            <p class="contact-note">Email is the way to reach the shop, and it goes straight to Nick.</p>
+          </div>
+          <div class="contact-details">
+            <a class="button button-primary" href="mailto:nick@cardellexhibits.com?subject=Exhibit%20help&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AWhat%20you%20need%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">Email about a station</a>
+            <br>
+            <a class="email" href="mailto:nick@cardellexhibits.com?subject=Exhibit%20help&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AWhat%20you%20need%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">nick@cardellexhibits.com</a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="shell">
+  <div class="shell rule rule-foot" aria-hidden="true"></div>
+
+  <footer class="shell site-footer">
     <p>Cardell Exhibit Service</p>
     <p>South Puget Sound, Washington</p>
     <a class="footer-email" href="mailto:nick@cardellexhibits.com?subject=Exhibit%20help&amp;body=Site%20%2F%20learning%20center%3A%0D%0A%0D%0ACity%3A%0D%0A%0D%0AWhat%20you%20need%3A%0D%0A%0D%0AIf%20you%20do%20not%20know%20the%20technical%20name%2C%20describe%20it%20like%20you%20would%20to%20a%20colleague.%20That%20is%20enough.">nick@cardellexhibits.com</a>
